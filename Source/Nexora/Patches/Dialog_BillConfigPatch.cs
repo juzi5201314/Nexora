@@ -21,7 +21,7 @@ public static class Dialog_BillConfigPatch
         var network = map?.GetComponent<LocalNetwork>();
         if (network == null) return;
 
-        var interfaces = network.GetAccessInterfaces(___billGiverPos);
+        var interfaces = network.GetAccessInterfaces(___billGiverPos).Where(i => i.HaulDestinationEnabled);
         foreach (var @interface in interfaces)
         {
             var proxy = new BillTargetProxy(@interface);

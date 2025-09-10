@@ -6,7 +6,7 @@
         <label>Dense Storage</label>
         <description>一个可以插多块存储设备的硬盘驱动器</description>
         <graphicData>
-            <texPath>Things/LocalStorage</texPath>
+            <texPath>Things/LocalStorage2x4</texPath>
             <graphicClass>Graphic_Single</graphicClass>
         </graphicData>
         <designationCategory>Nexora</designationCategory>

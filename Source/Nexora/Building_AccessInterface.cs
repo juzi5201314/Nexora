@@ -109,14 +109,6 @@ public class Building_AccessInterface : Building, IHaulDestination, IThingHolder
         };
     }
 
-    public override IEnumerable<InspectTabBase> GetInspectTabs()
-    {
-        foreach (var tab in base.GetInspectTabs())
-        {
-            yield return tab;
-        }
-    }
-
     public void GetChildHolders(List<IThingHolder> outChildren)
     {
     }

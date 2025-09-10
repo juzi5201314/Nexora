@@ -39,7 +39,6 @@ public static class FoodUtilityPatch
         if (inter == null) return null;
 
         // copy from `FoodUtility.SpawnedFoodSearchInnerScan`
-        var pawn = traverseParams.pawn ?? eater;
         var thing = result;
         var num3 = float.MinValue;
         foreach (var search in network.GetItemByRequest(request))
@@ -49,9 +48,7 @@ public static class FoodUtilityPatch
             {
                 var num4 = FoodUtility.FoodOptimality(eater, search, FoodUtility.GetFinalIngestibleDef(search),
                     lengthManhattan);
-                if (num4 >= num3 &&
-                    pawn.Map.reachability.CanReach(root, (LocalTargetInfo)search, peMode, traverseParams) &&
-                    (validator == null || validator(search)))
+                if (num4 >= num3 && (validator == null || validator(search)))
                 {
                     thing = search;
                     num3 = num4;
