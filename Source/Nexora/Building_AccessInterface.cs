@@ -46,8 +46,8 @@ public class Building_AccessInterface : Building, IHaulDestination, IThingHolder
 
     public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
     {
-        base.DeSpawn(mode);
         Network.AccessInterfaces.Remove(this);
+        base.DeSpawn(mode);
     }
 
     public override void PostMake()
