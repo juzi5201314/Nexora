@@ -46,8 +46,9 @@ public static class WorkGiver_DoBillPatch
         Pawn pawn, Thing billGiver, float searchRadius)
     {
         var network = pawn.Map.GetComponent<LocalNetwork>();
-        var inter = network.GetClosestAccessInterface(billGiver.Position, searchRadius);
-        if (inter is null || !pawn.CanReach(inter, PathEndMode.ClosestTouch, Danger.Deadly))
+        var inter = network.GetClosestAccessInterface(billGiver.Position, searchRadius,
+            traverseParams: TraverseParms.For(pawn));
+        if (inter is null)
         {
             return;
         }

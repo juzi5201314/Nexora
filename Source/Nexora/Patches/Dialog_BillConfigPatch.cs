@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Nexora.network;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace Nexora.Patches;
@@ -19,9 +20,11 @@ public static class Dialog_BillConfigPatch
         var bill = Traverse.Create(__instance).Field("bill").GetValue<Bill>();
         var map = bill?.billStack?.billGiver?.Map;
         var network = map?.GetComponent<LocalNetwork>();
-        if (network == null) return;
+        if (bill == null || network == null) return;
 
-        var interfaces = network.GetAccessInterfaces(___billGiverPos).Where(i => i.HaulDestinationEnabled);
+        var interfaces = network.GetAccessInterfaces(___billGiverPos)
+            .Where(i => i.HaulDestinationEnabled)
+            .OrderBy(i => i.Position.DistanceToSquared(___billGiverPos));
         foreach (var @interface in interfaces)
         {
             var proxy = new BillTargetProxy(@interface);

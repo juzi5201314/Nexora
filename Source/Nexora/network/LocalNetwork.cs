@@ -1,4 +1,5 @@
 ﻿using RimWorld;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -150,10 +151,11 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
         });
     }
 
-    public Building_AccessInterface? GetClosestAccessInterface(IntVec3 position, float searchRadius = float.MaxValue,
+    public Building_AccessInterface? GetClosestAccessInterface(IntVec3 position, float? searchRadius = null,
         PathEndMode pathEndMode = PathEndMode.ClosestTouch, TraverseParms? traverseParams = null)
     {
         Building_AccessInterface? closest = null;
+        var searchRadiusSquared = !searchRadius.HasValue ? float.MaxValue : Mathf.Sqrt(searchRadius.Value);
 
         foreach (var @interface in AccessInterfaces)
         {
@@ -162,9 +164,9 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
                     traverseParams ?? TraverseParms.For(TraverseMode.ByPawn)))
             {
                 var distSq = position.DistanceToSquared(@interface.Position);
-                if (distSq < searchRadius)
+                if (distSq <= searchRadiusSquared)
                 {
-                    searchRadius = distSq;
+                    searchRadiusSquared = distSq;
                     closest = @interface;
                 }
             }
@@ -173,16 +175,19 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
         return closest;
     }
 
-    public IEnumerable<Building_AccessInterface> GetAccessInterfaces(IntVec3? canReach = null)
+    public IEnumerable<Building_AccessInterface> GetAccessInterfaces(IntVec3? canReach = null,
+        float radius = float.MaxValue)
     {
-        var inters = map.listerBuildings.AllBuildingsColonistOfClass<Building_AccessInterface>();
-        if (!canReach.HasValue)
-        {
-            return inters;
-        }
+        return map.listerBuildings.AllBuildingsColonistOfClass<Building_AccessInterface>()
+            .Where(i =>
+            {
+                if (!canReach.HasValue)
+                {
+                    return true;
+                }
 
-        return inters.Where(i =>
-            map.reachability.CanReach(canReach.Value, i, PathEndMode.ClosestTouch,
-                TraverseParms.For(TraverseMode.ByPawn)));
+                return canReach.Value.DistanceTo(i.Position) <= radius && map.reachability.CanReach(
+                    canReach.Value, i, PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn));
+            });
     }
 }

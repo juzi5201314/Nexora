@@ -43,7 +43,7 @@ public static class FoodUtilityPatch
         var num3 = float.MinValue;
         foreach (var search in network.GetItemByRequest(request))
         {
-            float lengthManhattan = (root - search.Position).LengthManhattan;
+            var lengthManhattan = (root - search.Position).LengthManhattan;
             if (lengthManhattan <= maxDistance)
             {
                 var num4 = FoodUtility.FoodOptimality(eater, search, FoodUtility.GetFinalIngestibleDef(search),
