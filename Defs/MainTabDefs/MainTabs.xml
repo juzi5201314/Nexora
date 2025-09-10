@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <MainButtonDef>
+        <defName>Nexora_MainTab</defName>
+        <label>Nexora</label>
+        <description>Open Nexora Terminal</description>
+        <workerClass>Nexora.ui.MainButtonWorker_OpenGlobal</workerClass>
+        <order>10</order>
+    </MainButtonDef>
+</Defs>

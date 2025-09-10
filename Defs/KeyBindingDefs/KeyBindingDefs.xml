@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <KeyBindingCategoryDef>
+        <defName>Nexora_HotKey</defName>
+        <label>Nexora HotKey</label>
+        <isGameUniversal>true</isGameUniversal>
+    </KeyBindingCategoryDef>
+    <KeyBindingDef>
+        <category>Nexora_HotKey</category>
+        <defName>Nexora_HotKey_N</defName>
+        <label>Open Storage Terminal</label>
+        <defaultKeyCodeA>N</defaultKeyCodeA>
+        <defaultKeyCodeB>B</defaultKeyCodeB>
+    </KeyBindingDef>
+</Defs>

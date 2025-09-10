@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <ThingDef ParentName="BuildingBase">
+        <defName>Nexora_AccessInterface</defName>
+        <thingClass>Nexora.Building_AccessInterface</thingClass>
+        <label>Item Access Interface</label>
+        <description>访问接口</description>
+        <graphicData>
+            <texPath>Things/AccessInterface</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <designationCategory>Nexora</designationCategory>
+        <rotatable>true</rotatable>
+        <altitudeLayer>Building</altitudeLayer>
+        <inspectorTabs>
+            <li>ITab_Storage</li>
+        </inspectorTabs>
+        <size>(1,1)</size>
+        <category>Building</category>
+        <thingCategories>
+            <li>Buildings</li>
+        </thingCategories>
+        <minifiedDef>MinifiedThing</minifiedDef>
+        <passability>PassThroughOnly</passability>
+        <pathCost>0</pathCost>
+        <fillPercent>0.0</fillPercent>
+        <statBases>
+            <MaxHitPoints>1000</MaxHitPoints>
+            <WorkToBuild>800</WorkToBuild>
+            <Mass>3</Mass>
+            <Flammability>0.0</Flammability>
+            <Beauty>0.0</Beauty>
+        </statBases>
+        <costList>
+            <Steel>50</Steel>
+            <ComponentIndustrial>1</ComponentIndustrial>
+        </costList>
+        <building>
+            <relatedBuildCommands>
+                <li>Nexora_LocalStorage</li>
+            </relatedBuildCommands>
+            <maxItemsInCell>2147483647</maxItemsInCell>
+        </building>
+        <tickerType>Rare</tickerType>
+
+        <comps>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>15</basePowerConsumption>
+            </li>
+        </comps>
+    </ThingDef>
+
+</Defs>
