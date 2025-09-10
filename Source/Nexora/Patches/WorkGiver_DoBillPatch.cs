@@ -10,6 +10,7 @@ namespace Nexora.Patches;
 [HarmonyPatch(typeof(WorkGiver_DoBill))]
 public static class WorkGiver_DoBillPatch
 {
+    // 在查找工作清单原材料时将存储网络中的物品加入到可用物品列表中
     [HarmonyPatch("TryFindBestIngredientsHelper")]
     [HarmonyTranspiler]
     public static IEnumerable<CodeInstruction> TryFindBestIngredientsHelper(IEnumerable<CodeInstruction> instructions)

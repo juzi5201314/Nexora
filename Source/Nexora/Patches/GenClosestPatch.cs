@@ -24,25 +24,10 @@ public static class GenClosestPatch
         var network = map.GetComponent<LocalNetwork>();
         if (network == null) return;
 
-        var things = network.SortedStorages.SelectMany(storage =>
-        {
-            if (thingReq.singleDef != null)
-            {
-                return storage.IndexTable.TryGetValue(thingReq.singleDef, out var things)
-                    ? things.Keys.AsEnumerable()
-                    : [];
-            }
-            else
-            {
-                return storage.IndexTable.Where(pair =>
-                    thingReq.group.Includes(pair.Key)
-                ).SelectMany(pair => pair.Value.Keys.AsEnumerable());
-            }
-        }).AsEnumerable();
+        var things = network.GetItemByRequest(thingReq);
 
-        var inter = network.GetClosestAccessInterface(root, maxDistance);
+        var inter = network.GetClosestAccessInterface(root, maxDistance, peMode, traverseParams);
         if (inter == null) return;
-        if (!map.reachability.CanReach(root, inter, peMode, traverseParams)) return;
 
         if (__result != null && __result.Position.DistanceTo(root) >= inter.Position.DistanceTo(root))
         {

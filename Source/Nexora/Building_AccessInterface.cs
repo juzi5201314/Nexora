@@ -3,26 +3,33 @@ using Nexora.ui;
 using RimWorld;
 using UnityEngine;
 using Verse;
-using Verse.AI;
 
 namespace Nexora;
 
 [StaticConstructorOnStartup]
-public class Building_AccessInterface : Building, IHaulDestination, IThingHolder
+public class Building_AccessInterface : Building, IHaulDestination, IThingHolder, IRenameable
 {
     public LocalNetwork Network => Map.GetComponent<LocalNetwork>();
 
     private StorageSettings settings = new();
-    private ThingFilter OutputFilter = new();
     private bool haulDestinationEnabled = true;
+    private bool outputEnabled = true;
+    private string customName = "";
+
+    internal readonly AccessInterfaceThingOwnerProxy InnerThingOwner;
+
+    public string RenamableLabel
+    {
+        get => customName;
+        set => customName = value;
+    }
+
+    public string BaseLabel => Label;
+    public string InspectLabel => RenamableLabel;
 
     public bool StorageTabVisible => true;
     public bool HaulDestinationEnabled => haulDestinationEnabled;
-
-    private static Texture2D InputIcon = ContentFinder<Texture2D>.Get("UI/Input");
-    private static Texture2D OutputIcon = ContentFinder<Texture2D>.Get("UI/Output");
-
-    internal readonly AccessInterfaceThingOwnerProxy InnerThingOwner;
+    public bool OutputEnabled => outputEnabled;
 
     public Building_AccessInterface()
     {
@@ -50,7 +57,6 @@ public class Building_AccessInterface : Building, IHaulDestination, IThingHolder
             Priority = StoragePriority.Normal,
         };
         settings.filter.SetAllowAll(null);
-        OutputFilter.SetAllowAll(null);
     }
 
     public StorageSettings GetStoreSettings() => settings;
@@ -72,8 +78,9 @@ public class Building_AccessInterface : Building, IHaulDestination, IThingHolder
     {
         base.ExposeData();
         Scribe_Deep.Look(ref settings, "settings", this);
-        Scribe_Deep.Look(ref OutputFilter, "OutputFilter");
+        Scribe_Values.Look(ref customName, "customName", LabelCap);
         Scribe_Values.Look(ref haulDestinationEnabled, "haulDestinationEnabled", true);
+        Scribe_Values.Look(ref outputEnabled, "outputEnabled", true);
     }
 
     public override IEnumerable<Gizmo> GetGizmos()
@@ -83,9 +90,22 @@ public class Building_AccessInterface : Building, IHaulDestination, IThingHolder
         yield return new Command_Toggle()
         {
             defaultLabel = "Enable Input",
-            icon = InputIcon,
+            icon = Assets.Input,
             toggleAction = () => haulDestinationEnabled = !haulDestinationEnabled,
             isActive = () => haulDestinationEnabled,
+        };
+        yield return new Command_Toggle()
+        {
+            defaultLabel = "Enable Output",
+            icon = Assets.Output,
+            toggleAction = () => outputEnabled = !outputEnabled,
+            isActive = () => outputEnabled,
+        };
+        yield return new Command_Action
+        {
+            defaultLabel = "Rename".Translate(),
+            icon = TexButton.Rename,
+            action = () => Find.WindowStack.Add(new DialogRename(this)),
         };
     }
 
@@ -109,21 +129,17 @@ public class Building_AccessInterface : Building, IHaulDestination, IThingHolder
     public override void TickRare()
     {
         base.TickRare();
-        /*foreach (var (thing, (job, pawn)) in InnerThingOwner.Temp.ToList())
-        {
-            if (!pawn.jobs.jobQueue.Contains(job))
-            {
-                InnerThingOwner.ReturnToNetwork(thing);
-            }
-        }*/
     }
 }
 
 public class AccessInterfaceThingOwnerProxy(Building_AccessInterface parent) : ThingOwner(parent)
 {
+    // 此处的Thing应当只是暂时存放在访问接口中
+    // 它们应该马上会被拿走
+    // 或者在不需要使用时马上被返回到存储网络中
     public readonly Dictionary<Thing, object> Temp = [];
 
-    public void AddTempJobTarget(Thing thing)
+    public void AddTempThing(Thing thing)
     {
         thing.holdingOwner = this;
         Temp.Add(thing, typeof(void));
@@ -197,7 +213,7 @@ public class BillTargetProxy : ISlotGroupParent
     public Map Map => Interface.Map;
     public bool HaulDestinationEnabled => false;
 
-    public string SlotYielderLabel() => $"{Interface.LabelCap}({Interface.Position.x},{Interface.Position.y})";
+    public string SlotYielderLabel() => $"{Interface.RenamableLabel}";
     public SlotGroup GetSlotGroup() => dummySlotGroup;
     public bool IgnoreStoredThingsBeauty => true;
     public string GroupingLabel => Interface.LabelCap;

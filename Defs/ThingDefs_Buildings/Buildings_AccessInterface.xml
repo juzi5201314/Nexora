@@ -42,13 +42,6 @@
             <maxItemsInCell>2147483647</maxItemsInCell>
         </building>
         <tickerType>Rare</tickerType>
-
-        <comps>
-            <li Class="CompProperties_Power">
-                <compClass>CompPowerTrader</compClass>
-                <basePowerConsumption>15</basePowerConsumption>
-            </li>
-        </comps>
     </ThingDef>
 
 </Defs>

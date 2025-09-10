@@ -8,7 +8,8 @@ namespace Nexora.Patches;
 [HarmonyPatch(typeof(JobDriver_HaulToContainer))]
 public static class JobDriver_HaulToContainerPatch
 {
-    // Allows a pawn to carry multiple items to access interfaces
+    // 运行同时搬运多个物品到访问接口
+    // 删除了预订访问接口的代码。但是patch整个方法或许不是好主意，也许应该patch Reserve和ReserveAsManyAsPossible ？
     [HarmonyPatch("TryMakePreToilReservations")]
     [HarmonyPrefix]
     public static bool TryMakePreToilReservations(bool errorOnFailed, ref bool __result,
