@@ -27,21 +27,6 @@ public static class FoodUtilityPatch
         return matcher.Instructions();
     }
 
-    public static List<Thing> CustomFunc(Pawn getter, ThingRequest thingRequest)
-    {
-        var list = getter.Map.listerThings.ThingsMatching(thingRequest);
-        var network = getter.Map.GetComponent<LocalNetwork>();
-        var inter = network.GetClosestAccessInterface(getter.Position, traverseParams: TraverseParms.For(getter));
-        if (inter is null) return list;
-        foreach (var thing in network.GetItemByRequest(thingRequest))
-        {
-            thing.SetPositionDirect(inter.Position);
-            list.Add(thing);
-        }
-
-        return list;
-    }
-
     public static Thing? SpawnedFoodSearchInnerScan(Pawn eater, IntVec3 root, List<Thing> searchSet, PathEndMode peMode,
         TraverseParms traverseParams, float maxDistance = 9999f, Predicate<Thing> validator = null,
         ThingRequest request = default)
