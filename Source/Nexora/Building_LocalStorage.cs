@@ -143,13 +143,14 @@ public class Building_LocalStorage : Building, IThingHolder, IHaulSource
     public override string GetInspectString()
     {
         var s = new StringBuilder(base.GetInspectString());
+        s.AppendLine();
         s.AppendLine($"{"Priority".Translate()}: {Storage!.Priority}");
         foreach (var s1 in DataFormat.GetExtraInspectString(Storage!))
         {
             s.AppendLine(s1);
         }
 
-        return s.ToString().Trim();
+        return s.ToString().TrimEnd();
     }
 
     // source

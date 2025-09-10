@@ -14,15 +14,17 @@ public class Building_AccessInterface : Building, IHaulDestination, IThingHolder
     private StorageSettings settings = new();
     private bool haulDestinationEnabled = true;
     private bool outputEnabled = true;
-    private string customName = "";
+    private string? customName;
 
     internal readonly AccessInterfaceThingOwnerProxy InnerThingOwner;
 
     public string RenamableLabel
     {
-        get => customName;
+        get => customName ?? LabelCap;
         set => customName = value;
     }
+
+    public override string LabelNoCount => customName ?? GenLabel.ThingLabel(this, 1);
 
     public string BaseLabel => Label;
     public string InspectLabel => RenamableLabel;
