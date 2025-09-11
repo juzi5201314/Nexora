@@ -12,7 +12,9 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
     public readonly List<ItemStorage> SortedStorages = [];
 
     public readonly HashSet<Building_AccessInterface> AccessInterfaces = [];
-    public readonly HashSet<Building> ExternalStorages = [];
+
+    public readonly HashSet<Building_ExternalStorageConnector> ExternalStorageConnectors = [];
+    public readonly List<Building_ExternalStorageConnector> SortedExternalStorageConnectors = [];
 
     public LocalNetwork Network() => this;
 
@@ -23,22 +25,31 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
             return;
         }
 
-        for (var i = 0; i < SortedStorages.Count; i++)
-        {
-            var s = SortedStorages[i];
-            if (s.Priority <= storage.Priority)
-            {
-                SortedStorages.Insert(i, storage);
-                return;
-            }
-        }
-
-        SortedStorages.Add(storage);
+        var index = SortedStorages.BinarySearch(storage,
+            Comparer<ItemStorage>.Create((a, b) => b.Priority.CompareTo(a.Priority)));
+        SortedStorages.Insert(index < 0 ? ~index : index, storage);
     }
 
     public bool Disconnect(ItemStorage storage)
     {
         return Storages.Remove(storage) && SortedStorages.Remove(storage);
+    }
+
+    public void Connect(Building_ExternalStorageConnector storage)
+    {
+        if (!ExternalStorageConnectors.Add(storage))
+        {
+            return;
+        }
+
+        var index = SortedExternalStorageConnectors.BinarySearch(storage,
+            Comparer<Building_ExternalStorageConnector>.Create((a, b) => b.Priority.CompareTo(a.Priority)));
+        SortedExternalStorageConnectors.Insert(index < 0 ? ~index : index, storage);
+    }
+
+    public bool Disconnect(Building_ExternalStorageConnector storage)
+    {
+        return ExternalStorageConnectors.Remove(storage) && SortedExternalStorageConnectors.Remove(storage);
     }
 
     public bool ContainsStorage(ItemStorage storage)
@@ -54,6 +65,15 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
     }
 
     public void ChangeProperty(ItemStorage storage, int priority)
+    {
+        if (Disconnect(storage))
+        {
+            storage.Priority = priority;
+            Connect(storage);
+        }
+    }
+
+    public void ChangeProperty(Building_ExternalStorageConnector storage, int priority)
     {
         if (Disconnect(storage))
         {

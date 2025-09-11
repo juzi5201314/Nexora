@@ -1,5 +1,6 @@
 ﻿using Nexora.comp;
 using Nexora.network;
+using Nexora.ui;
 using Nexora.ui.utils;
 using RimWorld;
 using Verse;
@@ -12,6 +13,8 @@ public class Building_ExternalStorageConnector : Building
 
     public HashSet<IntVec3> CellsInRange = [];
     public readonly HashSet<Building_Storage> ExternalStorages = [];
+
+    public int Priority = 0;
 
     public Building_ExternalStorageConnector()
     {
@@ -63,6 +66,12 @@ public class Building_ExternalStorageConnector : Building
         ExternalStorages.Remove(storage);
     }
 
+    public override void ExposeData()
+    {
+        base.ExposeData();
+        Scribe_Values.Look(ref Priority, "Priority");
+    }
+
     public override void DrawExtraSelectionOverlays()
     {
         base.DrawExtraSelectionOverlays();
@@ -70,5 +79,29 @@ public class Building_ExternalStorageConnector : Building
         {
             GenDraw.DrawTargetHighlightWithLayer(building.Position, AltitudeLayer.MetaOverlays);
         }
+    }
+
+    public override IEnumerable<Gizmo> GetGizmos()
+    {
+        foreach (var gizmo in base.GetGizmos())
+        {
+            yield return gizmo;
+        }
+
+        yield return new Command_Settle()
+        {
+            defaultLabel = "Set Priority".Translate(),
+            icon = Assets.Priority,
+            action = () =>
+            {
+                Find.WindowStack.Add(new Dialog_SliderWithInput(
+                    val => $"Storage Priority: {val}",
+                    -50,
+                    100,
+                    value => { Network.ChangeProperty(this, value); },
+                    Priority
+                ));
+            }
+        };
     }
 }
