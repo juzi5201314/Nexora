@@ -110,7 +110,7 @@ public class ItemStorage(Building_LocalStorage owner) : ThingOwner(owner), IItem
                 thing.TryAbsorbStack(other, false);
                 if (other.Destroyed || other.stackCount == 0)
                 {
-                    Owner.DataFormat.OnAdd(this);
+                    Owner.CompDataFormat.OnAdd(this);
                     return num;
                 }
             }
@@ -119,13 +119,13 @@ public class ItemStorage(Building_LocalStorage owner) : ThingOwner(owner), IItem
         other.holdingOwner = this;
         dict.Add(other, Container.Count);
         Container.Add(other);
-        Owner.DataFormat.OnAdd(this);
+        Owner.CompDataFormat.OnAdd(this);
         return num;
     }
 
     public override int GetCountCanAccept(Thing item, bool canMergeWithExistingStacks = true)
     {
-        return Owner.DataFormat.GetCountCanAccept(this, item);
+        return Owner.CompDataFormat.GetCountCanAccept(this, item);
     }
 
     public new void DoTick()
@@ -226,7 +226,7 @@ public class ItemStorage(Building_LocalStorage owner) : ThingOwner(owner), IItem
         }
 
         Container.RemoveAt(last);
-        Owner.DataFormat.OnRemove(this, item, item.stackCount);
+        Owner.CompDataFormat.OnRemove(this, item, item.stackCount);
         return true;
     }
 

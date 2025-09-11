@@ -2,7 +2,7 @@
 
 namespace Nexora.comp;
 
-public abstract class DataFormatComp: ThingComp
+public abstract class CompDataFormat: ThingComp
 {
     public CompProperties_DataFormat Props => (CompProperties_DataFormat)props;
 

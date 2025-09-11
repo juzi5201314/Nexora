@@ -2,7 +2,7 @@
 
 namespace Nexora.comp;
 
-public class DataFormatComp_Unlimited : DataFormatComp
+public class CompDataFormatUnlimited : CompDataFormat
 {
     public override int GetCountCanAccept(ItemStorage storage, Thing item) => int.MaxValue;
 

@@ -4,7 +4,7 @@ using Verse;
 
 namespace Nexora.comp;
 
-public class DataFormatComp_MassFormat : DataFormatComp
+public class CompDataFormatMassFormat : CompDataFormat
 {
     internal decimal CachedMass = 0;
     internal bool dirty = true;
@@ -25,7 +25,7 @@ public class DataFormatComp_MassFormat : DataFormatComp
         return CachedMass;
     }
 
-    public DataFormatComp_MassFormat()
+    public CompDataFormatMassFormat()
     {
     }
 

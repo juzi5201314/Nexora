@@ -12,7 +12,7 @@ namespace Nexora;
 public class Building_LocalStorage : Building, IThingHolder, IHaulSource
 {
     public ItemStorage? Storage;
-    public DataFormatComp DataFormat = new DataFormatComp_Unlimited();
+    public CompDataFormat CompDataFormat = new CompDataFormatUnlimited();
 
     public LocalNetwork Network => Map.GetComponent<LocalNetwork>();
 
@@ -20,7 +20,7 @@ public class Building_LocalStorage : Building, IThingHolder, IHaulSource
     {
         base.SpawnSetup(map, respawningAfterLoad);
         Network.Connect(Storage!);
-        DataFormat = GetComp<DataFormatComp>() ?? new DataFormatComp_Unlimited();
+        CompDataFormat = GetComp<CompDataFormat>() ?? new CompDataFormatUnlimited();
     }
 
     public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
@@ -145,7 +145,7 @@ public class Building_LocalStorage : Building, IThingHolder, IHaulSource
         var s = new StringBuilder(base.GetInspectString());
         s.AppendLine();
         s.AppendLine($"{"Priority".Translate()}: {Storage!.Priority}");
-        foreach (var s1 in DataFormat.GetExtraInspectString(Storage!))
+        foreach (var s1 in CompDataFormat.GetExtraInspectString(Storage!))
         {
             s.AppendLine(s1);
         }
