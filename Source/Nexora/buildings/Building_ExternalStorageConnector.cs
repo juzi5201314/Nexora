@@ -107,6 +107,34 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
             yield return gizmo;
         }
 
+        yield return new Command_Action
+        {
+            defaultLabel = "Open Terminal".Translate(),
+            icon = Assets.Terminal,
+            hotKey = DefDatabase<KeyBindingDef>.GetNamed("Nexora_HotKey_N"),
+            action = () => { Find.WindowStack.Add(new Window_Terminal(this)); }
+        };
+        yield return new Command_Action
+        {
+            defaultLabel = "Transfer Items".Translate(),
+            defaultDesc = "Transfer items to other storage drives",
+            icon = Assets.MoveItem,
+            action = () =>
+            {
+                if (!Network.Disconnect(this))
+                {
+                    Log.Error("[Nexora] Can't disconnect storage drive");
+                    return;
+                }
+
+                foreach (var thing in GetExternalItems().ToList())
+                {
+                    Network.TryAddItem(thing);
+                }
+
+                Network.Connect(this);
+            }
+        };
         yield return new Command_Settle()
         {
             defaultLabel = "Set Priority".Translate(),
