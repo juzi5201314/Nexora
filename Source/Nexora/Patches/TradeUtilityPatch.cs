@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using HarmonyLib;
 using Nexora.network;
+using Nexora.utils.pooled;
 using RimWorld;
 using Verse;
 
@@ -20,7 +21,7 @@ public static class TradeUtilityPatch
             yield break;
         }
 
-        var yieldedThings = new HashSet<Thing>();
+        var yieldedThings = new PooledHashSet<Thing>();
         foreach (var thing in __result)
         {
             if (yieldedThings.Add(thing))
