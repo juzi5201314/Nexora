@@ -40,14 +40,6 @@ public class Building_AccessInterface : Building, IHaulDestination, IThingHolder
     {
         base.SpawnSetup(map, respawningAfterLoad);
         Network.AccessInterfaces.Add(this);
-        Map.events.HaulEnrouteAdded += (thing, pawn, _def, count) =>
-        {
-            Log.Message($"HaulEnrouteAdded {thing.LabelCap} {pawn.LabelCap} {_def.LabelCap} {count}");
-        };
-        Map.events.HaulEnrouteReleased += (thing, pawn) =>
-        {
-            Log.Message($"HaulEnrouteReleased {thing.LabelCap} {pawn.LabelCap} ");
-        };
     }
 
     public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
