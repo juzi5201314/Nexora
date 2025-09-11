@@ -17,12 +17,17 @@ public static class JobDriver_HaulToContainerPatch
         JobDriver_HaulToContainer __instance)
     {
         var target = __instance.Container;
-        if (target is Building_AccessInterface)
+        if (target is Building_AccessInterface inter)
         {
             if (!__instance.pawn.Reserve(__instance.job.GetTarget(TargetIndex.A), __instance.job,
                     errorOnFailed: errorOnFailed))
             {
                 __result = false;
+                return false;
+            }
+
+            if (!inter.Accepts(__instance.ThingToCarry))
+            {
                 return false;
             }
 
