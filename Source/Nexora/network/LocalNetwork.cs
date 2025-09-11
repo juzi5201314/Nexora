@@ -108,6 +108,16 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
         return Storages.SelectMany(storage => storage.GetVirtualItems());
     }
 
+    public IEnumerable<Thing> GetExternalItems()
+    {
+        return ExternalStorageConnectors.SelectMany(s => s.GetAllItems());
+    }
+
+    public IEnumerable<Thing> GetAllItems()
+    {
+        return GetVirtualItems().Concat(GetExternalItems());
+    }
+
     public NetworkInfo Info() => new()
     {
         OwnerMap = map.Parent.LabelCap ?? "unknown map",

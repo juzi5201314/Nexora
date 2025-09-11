@@ -33,6 +33,13 @@ public class ItemStorage(Building_LocalStorage owner) : ThingOwner(owner), IItem
         return Container;
     }
 
+    public IEnumerable<Thing> GetExternalItems()
+    {
+        yield break;
+    }
+
+    public IEnumerable<Thing> GetAllItems() => GetVirtualItems();
+
     public IEnumerable<Thing> GetItemsByDef(ThingDef def)
     {
         if (IndexTable.TryGetValue(def, out var dict))

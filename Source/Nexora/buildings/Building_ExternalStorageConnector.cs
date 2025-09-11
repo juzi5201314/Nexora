@@ -4,17 +4,19 @@ using Nexora.ui;
 using Nexora.ui.utils;
 using RimWorld;
 using Verse;
+using Verse.AI;
 
 namespace Nexora.buildings;
 
-public class Building_ExternalStorageConnector : Building
+public class Building_ExternalStorageConnector : Building, IItemInterface
 {
     public LocalNetwork Network => Map.GetComponent<LocalNetwork>();
 
     public HashSet<IntVec3> CellsInRange = [];
-    public readonly HashSet<Building_Storage> ExternalStorages = [];
-
     public int Priority = 0;
+
+    public readonly HashSet<Building_Storage> ExternalStorages = [];
+    public readonly HashSet<IThingHolder> ExternalContainers = [];
 
     public Building_ExternalStorageConnector()
     {
@@ -46,25 +48,42 @@ public class Building_ExternalStorageConnector : Building
 
     private void OnBuildingSpawned(Building building)
     {
-        if (building is not Building_Storage storage || building is Building_LocalStorage ||
-            !CellsInRange.Contains(building.Position))
+        if (IsUnAllowedBuilding(building) || !CellsInRange.Contains(building.Position))
         {
             return;
         }
 
-        ExternalStorages.Add(storage);
+        switch (building)
+        {
+            case IThingHolder holder:
+                ExternalContainers.Add(holder);
+                break;
+            case Building_Storage storage:
+                ExternalStorages.Add(storage);
+                break;
+        }
     }
 
     private void OnBuildingDespawned(Building building)
     {
-        if (building is not Building_Storage storage || building is Building_LocalStorage ||
-            !CellsInRange.Contains(building.Position))
+        if (IsUnAllowedBuilding(building) || !CellsInRange.Contains(building.Position))
         {
             return;
         }
 
-        ExternalStorages.Remove(storage);
+        switch (building)
+        {
+            case IThingHolder holder:
+                ExternalContainers.Remove(holder);
+                break;
+            case Building_Storage storage:
+                ExternalStorages.Remove(storage);
+                break;
+        }
     }
+
+    private static bool IsUnAllowedBuilding(Building building) =>
+        building is Building_LocalStorage or Building_ExternalStorageConnector or Building_AccessInterface;
 
     public override void ExposeData()
     {
@@ -104,4 +123,79 @@ public class Building_ExternalStorageConnector : Building
             }
         };
     }
+
+    public IEnumerable<Thing> GetVirtualItems()
+    {
+        yield break;
+    }
+
+    public IEnumerable<Thing> GetExternalItems()
+    {
+        return ExternalStorages.SelectMany(storage => storage.slotGroup.HeldThings)
+            .Concat(ExternalContainers.SelectMany(container => container.GetDirectlyHeldThings()));
+    }
+
+    public IEnumerable<Thing> GetAllItems() => GetExternalItems();
+
+    public int TryAddItem(Thing item)
+    {
+        var added = 0;
+        foreach (var storage in ExternalStorages)
+        {
+            foreach (var cell in storage.AllSlotCells())
+            {
+                if (cell.IsValidStorageFor(Map, item))
+                {
+                    if (GenDrop.TryDropSpawn(item, cell, Map, ThingPlaceMode.Direct, out var res))
+                    {
+                        if (res != null)
+                        {
+                            added += res.stackCount;
+                        }
+
+                        if (item.Destroyed || item.stackCount <= 0)
+                        {
+                            return added;
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach (var container in ExternalContainers)
+        {
+            var thingOwner = container.GetDirectlyHeldThings();
+            if (thingOwner.GetCountCanAccept(item) >= 0)
+            {
+                added += thingOwner.TryAddOrTransfer(item, item.stackCount);
+                if (item.Destroyed || item.stackCount <= 0)
+                {
+                    return added;
+                }
+            }
+        }
+
+        return added;
+    }
+
+    public int GetCountCanAccept(Thing item)
+    {
+        return ExternalStorages.Sum(s => s.Accepts(item) ? 1 : 0) +
+               ExternalContainers.Sum(h => h.GetDirectlyHeldThings().GetCountCanAccept(item));
+    }
+
+
+    public int Count()
+    {
+        return ExternalStorages.Sum(s => s.slotGroup.HeldThingsCount) +
+               ExternalContainers.Sum(h => h.GetDirectlyHeldThings().Count);
+    }
+
+    public bool Contains(Thing item)
+    {
+        return ExternalStorages.Any(s => s.slotGroup.HeldThings.Contains(item))
+               || ExternalContainers.Any(h => h.GetDirectlyHeldThings().Contains(item));
+    }
+
+    LocalNetwork IItemInterface.Network() => Network;
 }
