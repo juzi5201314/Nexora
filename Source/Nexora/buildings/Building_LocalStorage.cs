@@ -1,13 +1,11 @@
-﻿using System.Diagnostics;
-using System.Text;
+﻿using System.Text;
 using Nexora.comp;
 using Nexora.network;
 using Nexora.ui;
 using RimWorld;
-using UnityEngine;
 using Verse;
 
-namespace Nexora;
+namespace Nexora.buildings;
 
 public class Building_LocalStorage : Building, IThingHolder, IHaulSource
 {

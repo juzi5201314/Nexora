@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
     <ThingDef ParentName="BuildingBase">
-        <defName>Nexora_AccessInterface</defName>
-        <thingClass>Nexora.buildings.Building_AccessInterface</thingClass>
-        <label>Item Access Interface</label>
-        <description>访问接口</description>
+        <defName>Nexora_ExternalStorageConnector</defName>
+        <thingClass>Nexora.buildings.Building_ExternalStorageConnector</thingClass>
+        <label>External Storage Connector</label>
+        <description>外部存储接口</description>
         <graphicData>
-            <texPath>Things/AccessInterface</texPath>
+            <texPath>Things/ExternalStorageConnector</texPath>
             <graphicClass>Graphic_Single</graphicClass>
         </graphicData>
         <designationCategory>Nexora</designationCategory>
         <rotatable>true</rotatable>
         <altitudeLayer>Building</altitudeLayer>
-        <inspectorTabs>
-            <li>ITab_Storage</li>
-        </inspectorTabs>
         <size>(1,1)</size>
         <category>Building</category>
         <thingCategories>
@@ -32,17 +29,27 @@
             <Beauty>0.0</Beauty>
         </statBases>
         <costList>
-            <Steel>50</Steel>
-            <ComponentIndustrial>1</ComponentIndustrial>
+            <Steel>100</Steel>
+            <ComponentIndustrial>3</ComponentIndustrial>
         </costList>
         <building>
             <relatedBuildCommands>
-                <li>Nexora_LocalStorage</li>
-                <li>Nexora_ExternalStorageConnector</li>
+                <li>Nexora_AccessInterface</li>
             </relatedBuildCommands>
-            <maxItemsInCell>2147483647</maxItemsInCell>
         </building>
         <tickerType>Rare</tickerType>
+
+        <comps>
+            <li Class="Nexora.comp.CompProperties_Ranged">
+                <compClass>Nexora.comp.CompRanged</compClass>
+                <radius>2.9</radius>
+            </li>
+            <li Class="CompProperties_Glower">
+                <glowRadius>2</glowRadius>
+                <glowColor>(125, 245, 237, 0)</glowColor>
+            </li>
+        </comps>
+        <specialDisplayRadius>2.9</specialDisplayRadius>
     </ThingDef>
 
 </Defs>

@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Nexora.buildings;
+using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -11,6 +12,7 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
     public readonly List<ItemStorage> SortedStorages = [];
 
     public readonly HashSet<Building_AccessInterface> AccessInterfaces = [];
+    public readonly HashSet<Building> ExternalStorages = [];
 
     public LocalNetwork Network() => this;
 

@@ -2,7 +2,7 @@
 <Defs>
     <ThingDef ParentName="BuildingBase">
         <defName>Nexora_LocalStorage</defName>
-        <thingClass>Nexora.Building_LocalStorage</thingClass>
+        <thingClass>Nexora.buildings.Building_LocalStorage</thingClass>
         <label>Dense Storage</label>
         <description>一个可以插多块存储设备的硬盘驱动器</description>
         <graphicData>
@@ -51,7 +51,7 @@
                 <basePowerConsumption>50</basePowerConsumption>
             </li>
             <li Class="Nexora.comp.CompProperties_DataFormat">
-                <compClass>Nexora.comp.DataFormatComp_MassFormat</compClass>
+                <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
                 <value>1000</value>
             </li>
         </comps>

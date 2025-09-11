@@ -1,12 +1,10 @@
 ﻿using Nexora.network;
 using Nexora.ui;
 using RimWorld;
-using UnityEngine;
 using Verse;
 
-namespace Nexora;
+namespace Nexora.buildings;
 
-[StaticConstructorOnStartup]
 public class Building_AccessInterface : Building, IHaulDestination, IThingHolder, IRenameable
 {
     public LocalNetwork Network => Map.GetComponent<LocalNetwork>();
@@ -42,6 +40,14 @@ public class Building_AccessInterface : Building, IHaulDestination, IThingHolder
     {
         base.SpawnSetup(map, respawningAfterLoad);
         Network.AccessInterfaces.Add(this);
+        Map.events.HaulEnrouteAdded += (thing, pawn, _def, count) =>
+        {
+            Log.Message($"HaulEnrouteAdded {thing.LabelCap} {pawn.LabelCap} {_def.LabelCap} {count}");
+        };
+        Map.events.HaulEnrouteReleased += (thing, pawn) =>
+        {
+            Log.Message($"HaulEnrouteReleased {thing.LabelCap} {pawn.LabelCap} ");
+        };
     }
 
     public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
