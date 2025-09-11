@@ -2,6 +2,7 @@
 using Nexora.network;
 using Nexora.ui;
 using Nexora.ui.utils;
+using Nexora.utils.pooled;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -127,7 +128,7 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
                     return;
                 }
 
-                foreach (var thing in GetExternalItems().ToList())
+                foreach (var thing in GetExternalItems().ToPooledList())
                 {
                     Network.TryAddItem(thing);
                 }

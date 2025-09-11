@@ -2,6 +2,7 @@
 using Nexora.comp;
 using Nexora.network;
 using Nexora.ui;
+using Nexora.utils.pooled;
 using RimWorld;
 using Verse;
 
@@ -87,7 +88,7 @@ public class Building_LocalStorage : Building, IThingHolder, IHaulSource
                     return;
                 }
 
-                foreach (var thing in Storage!.ToList())
+                foreach (var thing in Storage!.ToPooledList())
                 {
                     Network.TryAddItem(thing);
                 }
