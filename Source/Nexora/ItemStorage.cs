@@ -208,6 +208,11 @@ public class ItemStorage(Building_LocalStorage owner) : ThingOwner(owner), IItem
         }
 
         thingDict.Remove(item);
+        if (thingDict.Count <= 0)
+        {
+            IndexTable.Remove(item.def);
+        }
+
         var last = Container.Count - 1;
         if (idx != last)
         {
