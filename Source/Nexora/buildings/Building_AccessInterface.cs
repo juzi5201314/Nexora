@@ -1,5 +1,6 @@
 ﻿using Nexora.network;
 using Nexora.ui;
+using Nexora.utils.pooled;
 using RimWorld;
 using Verse;
 
@@ -121,6 +122,21 @@ public class Building_AccessInterface : Building, IHaulDestination, IThingHolder
     public override void TickRare()
     {
         base.TickRare();
+        if (InnerThingOwner.Temp.Count > 0)
+        {
+            using var pooledList = InnerThingOwner.Temp.ToPooledList();
+            foreach (var (thing, _) in pooledList)
+            {
+                // 在暂存区但是没有被预留的物品
+                // 可能是之前被作为job target但是中途出现异常导致没有release的
+                // 也可能是没有通过ReleaseClaimedBy释放的，如果是这样，那么应当写patch来确保释放
+                if (!Map.reservationManager.IsReserved(thing) &&
+                    !Map.physicalInteractionReservationManager.IsReserved(thing))
+                {
+                    InnerThingOwner.ReturnToNetwork(thing, thing.stackCount);
+                }
+            }
+        }
     }
 }
 
@@ -162,7 +178,7 @@ public class AccessInterfaceThingOwnerProxy(Building_AccessInterface parent) : T
         {
             thing.DeSpawn();
         }
-        
+
         if (parent.Network.TryAddItem(thing) < count)
         {
             GenDrop.TryDropSpawn(thing, parent.Position, parent.Map, ThingPlaceMode.Near, out _);
