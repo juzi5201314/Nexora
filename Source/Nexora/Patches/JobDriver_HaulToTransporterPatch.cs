@@ -13,10 +13,12 @@ public static class JobDriver_HaulToTransporterPatch
     [HarmonyPostfix]
     public static void Notify_Starting(JobDriver_HaulToTransporter __instance)
     {
-        if (!__instance.job.targetA.IsValid ||
-            __instance.job.targetA.Thing?.holdingOwner is not ItemStorage storage) return;
+        var network = __instance.Container.Map
+            .GetComponent<LocalNetwork>();
+        if (!__instance.job.targetA.IsValid || !__instance.job.targetA.HasThing ||
+            !network.Managed(__instance.job.targetA.Thing)) return;
 
-        var inter = storage.Network().GetClosestAccessInterface(__instance.job.targetB.Cell,
+        var inter = network.GetClosestAccessInterface(__instance.job.targetB.Cell,
             traverseParams: TraverseParms.For(__instance.pawn));
         if (inter is null)
         {
@@ -33,7 +35,7 @@ public static class JobDriver_HaulToTransporterPatch
         }
         else
         {
-            GenDrop.TryDropSpawn(other, inter.Position, inter.Map, ThingPlaceMode.Direct, out other);
+            utils.GenPlace.TryPlaceItemWithStacking(other, inter.Position, inter.Map, out other);
         }
 
         if (other != null)

@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Nexora.buildings;
+using Nexora.network;
 using RimWorld;
 using Verse;
 
@@ -14,7 +15,8 @@ public static class StoreUtilityPatch
     public static void TryFindBestBetterNonSlotGroupStorageFor(Thing t, ref IHaulDestination haulDestination,
         ref bool __result)
     {
-        if (t.holdingOwner is ItemStorage && haulDestination is Building_AccessInterface)
+        var network = t.Map.GetComponent<LocalNetwork>();
+        if (network.Managed(t) && haulDestination is Building_AccessInterface)
         {
             haulDestination = null!;
             __result = false;

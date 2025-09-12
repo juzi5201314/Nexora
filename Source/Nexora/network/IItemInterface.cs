@@ -13,6 +13,7 @@ public interface IItemInterface
     public abstract int GetCountCanAccept(Thing item);
     
     public abstract int Count();
+    public abstract int Priority();
 
     public abstract bool Contains(Thing item);
 

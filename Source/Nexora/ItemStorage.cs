@@ -15,13 +15,14 @@ public class ItemStorage(Building_LocalStorage owner) : ThingOwner(owner), IItem
 {
     internal readonly Dictionary<ThingDef, Dictionary<Thing, int>> IndexTable = new();
     internal List<Thing> Container = [];
-    internal int Priority = 0;
+    internal int priority = 0;
 
     internal new readonly Building_LocalStorage Owner = owner;
 
     public LocalNetwork Network() => Owner.Network;
 
     int IItemInterface.Count() => Count;
+    public int Priority() => priority;
 
     public int GetCountCanAccept(Thing item)
     {
@@ -143,7 +144,7 @@ public class ItemStorage(Building_LocalStorage owner) : ThingOwner(owner), IItem
     public new void ExposeData()
     {
         Scribe_Collections.Look(ref Container, "Container", LookMode.Deep);
-        Scribe_Values.Look(ref Priority, "Priority");
+        Scribe_Values.Look(ref priority, "priority");
 
         switch (Scribe.mode)
         {

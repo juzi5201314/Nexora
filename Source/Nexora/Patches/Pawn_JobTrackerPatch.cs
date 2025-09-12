@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using Nexora.network;
-using RimWorld;
 using Verse;
 using Verse.AI;
 
@@ -72,11 +71,12 @@ public static class Pawn_JobTrackerPatch
         (LocalTargetInfo, int) ProcessThing(LocalTargetInfo target, int count)
         {
             var item = target.Thing;
-            if (item is { holdingOwner: ItemStorage })
+            if (network!.Managed(item))
             {
                 var num = Math.Min(item.stackCount, count == -1 ? item.stackCount : count);
                 var other = item.SplitOff(num);
-                GenDrop.TryDropSpawn(other, inter.Position, inter.Map, ThingPlaceMode.Direct, out var res);
+                //GenDrop.TryDropSpawn(other, inter.Position, inter.Map, ThingPlaceMode.Direct, out var res);
+                utils.GenPlace.TryPlaceItemWithStacking(other, inter.Position, inter.Map, out var res);
                 inter.InnerThingOwner.AddTempThing(res);
                 return (new LocalTargetInfo(res), num);
             }

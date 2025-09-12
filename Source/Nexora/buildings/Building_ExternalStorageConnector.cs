@@ -5,7 +5,6 @@ using Nexora.ui.utils;
 using Nexora.utils.pooled;
 using RimWorld;
 using Verse;
-using Verse.AI;
 
 namespace Nexora.buildings;
 
@@ -14,7 +13,7 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
     public LocalNetwork Network => Map.GetComponent<LocalNetwork>();
 
     public HashSet<IntVec3> CellsInRange = [];
-    public int Priority = 0;
+    internal int priority = 0;
 
     public readonly HashSet<Building_Storage> ExternalStorages = [];
     public readonly HashSet<IThingHolder> ExternalContainers = [];
@@ -26,6 +25,7 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
     public override void SpawnSetup(Map map, bool respawningAfterLoad)
     {
         base.SpawnSetup(map, respawningAfterLoad);
+        Network.Connect(this);
         CellsInRange = GetComp<CompRanged>().CellInRange().ToHashSet();
         Map.events.BuildingSpawned += OnBuildingSpawned;
         Map.events.BuildingDespawned += OnBuildingDespawned;
@@ -44,6 +44,8 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
             OnBuildingDespawned(building);
         }
 
+        Network.Disconnect(this);
+
         base.DeSpawn(mode);
     }
 
@@ -60,6 +62,11 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
                 ExternalContainers.Add(holder);
                 break;
             case Building_Storage storage:
+                foreach (var thing in storage.slotGroup.HeldThings)
+                {
+                    thing.holdingOwner = EmptyThingOwner.Instance;
+                }
+
                 ExternalStorages.Add(storage);
                 break;
         }
@@ -89,7 +96,7 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
     public override void ExposeData()
     {
         base.ExposeData();
-        Scribe_Values.Look(ref Priority, "Priority");
+        Scribe_Values.Look(ref priority, "priority");
     }
 
     public override void DrawExtraSelectionOverlays()
@@ -130,7 +137,8 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
 
                 foreach (var thing in GetExternalItems().ToPooledList())
                 {
-                    Network.TryAddItem(thing);
+                    var num = Math.Min(Network.GetCountCanAccept(thing), thing.stackCount);
+                    Network.TryAddItem(thing.SplitOff(num));
                 }
 
                 Network.Connect(this);
@@ -147,7 +155,7 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
                     -50,
                     100,
                     value => { Network.ChangeProperty(this, value); },
-                    Priority
+                    priority
                 ));
             }
         };
@@ -169,6 +177,7 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
     public int TryAddItem(Thing item)
     {
         var added = 0;
+        var total = item.stackCount;
         foreach (var storage in ExternalStorages)
         {
             foreach (var cell in storage.AllSlotCells())
@@ -180,9 +189,10 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
                         if (res != null)
                         {
                             added += res.stackCount;
+                            res.holdingOwner = EmptyThingOwner.Instance;
                         }
 
-                        if (item.Destroyed || item.stackCount <= 0)
+                        if (added >= total || item.Destroyed || item.stackCount <= 0)
                         {
                             return added;
                         }
@@ -222,9 +232,48 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
 
     public bool Contains(Thing item)
     {
-        return ExternalStorages.Any(s => s.slotGroup.HeldThings.Contains(item))
+        return item.holdingOwner is EmptyThingOwner
                || ExternalContainers.Any(h => h.GetDirectlyHeldThings().Contains(item));
     }
 
     LocalNetwork IItemInterface.Network() => Network;
+    public int Priority() => priority;
+}
+
+// 一个空的ThingOwner，仅用于判断放置在地图格子上的Thing是否包含在ExternalStorage中
+public class EmptyThingOwner : ThingOwner
+{
+    public static readonly EmptyThingOwner Instance = new();
+
+    public override int TryAdd(Thing item, int count, bool canMergeWithExistingStacks = true)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override bool TryAdd(Thing item, bool canMergeWithExistingStacks = true)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override int IndexOf(Thing? item)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override bool Remove(Thing? item)
+    {
+        if (item?.holdingOwner != null)
+        {
+            item.holdingOwner = null;
+        }
+
+        return true;
+    }
+
+    public override int Count => 0;
+
+    protected override Thing GetAt(int index)
+    {
+        throw new NotImplementedException();
+    }
 }

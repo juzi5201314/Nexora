@@ -134,25 +134,42 @@ public class AccessInterfaceThingOwnerProxy(Building_AccessInterface parent) : T
     public void AddTempThing(Thing thing)
     {
         thing.holdingOwner = this;
-        Temp.Add(thing, typeof(void));
+        Temp[thing] = typeof(void);
     }
 
-    public bool ReturnToNetwork(Thing thing)
+    public bool ReturnToNetwork(Thing thing, int count)
     {
-        if (Remove(thing))
+        if (count > thing.stackCount)
         {
-            parent.Network.TryAddItem(thing);
-            if (thing.stackCount != 0 || !thing.Destroyed)
-            {
-                GenDrop.TryDropSpawn(thing, parent.Position, parent.Map, ThingPlaceMode.Near, out _);
-                return false;
-            }
-
-            return true;
+            count = thing.stackCount;
         }
 
-        Log.Warning($"[Nexora] Failed to return {thing.LabelCap} to network.");
-        return false;
+        if (count == thing.stackCount)
+        {
+            if (!Remove(thing))
+            {
+                Log.Warning($"[Nexora] Failed to return {thing.LabelCap} to network.");
+                return false;
+            }
+        }
+
+        if (count < thing.stackCount)
+        {
+            thing = thing.SplitOff(count);
+        }
+
+        if (thing.Spawned)
+        {
+            thing.DeSpawn();
+        }
+        
+        if (parent.Network.TryAddItem(thing) < count)
+        {
+            GenDrop.TryDropSpawn(thing, parent.Position, parent.Map, ThingPlaceMode.Near, out _);
+            return false;
+        }
+
+        return true;
     }
 
     public override int TryAdd(Thing item, int count, bool canMergeWithExistingStacks = true)

@@ -8,48 +8,28 @@ namespace Nexora.network;
 
 public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
 {
-    public readonly HashSet<ItemStorage> Storages = [];
-    public readonly List<ItemStorage> SortedStorages = [];
+    public readonly HashSet<IItemInterface> Storages = [];
+    public readonly List<IItemInterface> SortedStorages = [];
 
     public readonly HashSet<Building_AccessInterface> AccessInterfaces = [];
 
-    public readonly HashSet<Building_ExternalStorageConnector> ExternalStorageConnectors = [];
-    public readonly List<Building_ExternalStorageConnector> SortedExternalStorageConnectors = [];
-
     public LocalNetwork Network() => this;
 
-    public void Connect(ItemStorage storage)
+    public void Connect(IItemInterface storage)
     {
-        if (!Storages.Add(storage))
+        if (!Storages.Add(storage) || storage is LocalNetwork)
         {
             return;
         }
 
         var index = SortedStorages.BinarySearch(storage,
-            Comparer<ItemStorage>.Create((a, b) => b.Priority.CompareTo(a.Priority)));
+            Comparer<IItemInterface>.Create((a, b) => b.Priority().CompareTo(a.Priority())));
         SortedStorages.Insert(index < 0 ? ~index : index, storage);
     }
 
-    public bool Disconnect(ItemStorage storage)
+    public bool Disconnect(IItemInterface storage)
     {
         return Storages.Remove(storage) && SortedStorages.Remove(storage);
-    }
-
-    public void Connect(Building_ExternalStorageConnector storage)
-    {
-        if (!ExternalStorageConnectors.Add(storage))
-        {
-            return;
-        }
-
-        var index = SortedExternalStorageConnectors.BinarySearch(storage,
-            Comparer<Building_ExternalStorageConnector>.Create((a, b) => b.Priority.CompareTo(a.Priority)));
-        SortedExternalStorageConnectors.Insert(index < 0 ? ~index : index, storage);
-    }
-
-    public bool Disconnect(Building_ExternalStorageConnector storage)
-    {
-        return ExternalStorageConnectors.Remove(storage) && SortedExternalStorageConnectors.Remove(storage);
     }
 
     public bool ContainsStorage(ItemStorage storage)
@@ -68,7 +48,7 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
     {
         if (Disconnect(storage))
         {
-            storage.Priority = priority;
+            storage.priority = priority;
             Connect(storage);
         }
     }
@@ -77,7 +57,7 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
     {
         if (Disconnect(storage))
         {
-            storage.Priority = priority;
+            storage.priority = priority;
             Connect(storage);
         }
     }
@@ -98,24 +78,19 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
         return added;
     }
 
-    public bool RemoveItem(Thing item)
-    {
-        return SortedStorages.Any(storage => storage.Remove(item));
-    }
-
     public IEnumerable<Thing> GetVirtualItems()
     {
-        return Storages.SelectMany(storage => storage.GetVirtualItems());
+        return Storages.SelectMany(s => s.GetVirtualItems());
     }
 
     public IEnumerable<Thing> GetExternalItems()
     {
-        return ExternalStorageConnectors.SelectMany(s => s.GetAllItems());
+        return Storages.SelectMany(s => s.GetExternalItems());
     }
 
     public IEnumerable<Thing> GetAllItems()
     {
-        return GetVirtualItems().Concat(GetExternalItems());
+        return Storages.SelectMany(s => s.GetAllItems());
     }
 
     public NetworkInfo Info() => new()
@@ -144,7 +119,7 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
         long sum = 0;
         foreach (var storage in Storages)
         {
-            sum += storage.Count;
+            sum += storage.Count();
             if (sum > int.MaxValue)
             {
                 return int.MaxValue;
@@ -154,32 +129,44 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
         return (int)sum;
     }
 
+    public int Priority() => 0;
+
     public bool Contains(Thing item)
     {
         return SortedStorages.Any(storage => storage.Contains(item));
     }
 
-    public bool Contains(ThingDef def)
+    public bool Managed(Thing item)
     {
-        return SortedStorages.Any(storage => storage.Contains(def));
+        return item.holdingOwner is ItemStorage or EmptyThingOwner ||
+               Storages.Where(s => s is Building_ExternalStorageConnector).Any(s => s.Contains(item));
     }
 
     public IEnumerable<Thing> GetItemByRequest(ThingRequest request)
     {
         return SortedStorages.SelectMany(storage =>
         {
-            if (request.singleDef != null)
+            switch (storage)
             {
-                return storage.IndexTable.TryGetValue(request.singleDef, out var things)
-                    ? things.Keys.AsEnumerable()
-                    : [];
+                case ItemStorage itemStorage:
+                    if (request.singleDef != null)
+                    {
+                        return itemStorage.IndexTable.TryGetValue(request.singleDef, out var things)
+                            ? things.Keys.AsEnumerable()
+                            : [];
+                    }
+                    else
+                    {
+                        return itemStorage.IndexTable.Where(pair =>
+                            request.group.Includes(pair.Key)
+                        ).SelectMany(pair => pair.Value.Keys.AsEnumerable());
+                    }
+                case Building_ExternalStorageConnector connector:
+                    return connector.GetExternalItems().Where(t => request.Accepts(t));
             }
-            else
-            {
-                return storage.IndexTable.Where(pair =>
-                    request.group.Includes(pair.Key)
-                ).SelectMany(pair => pair.Value.Keys.AsEnumerable());
-            }
+
+            Log.Error($"[Nexora] GetItemByRequest: unexpect storage: {storage.GetType().FullName}");
+            return [];
         });
     }
 

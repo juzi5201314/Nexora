@@ -122,11 +122,11 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
         if (item.holdingOwner is ItemStorage storage)
         {
             var pos = storage.Owner.Position;
-            str.AppendLine($"Stored in: ({pos.x}, {pos.y})");
+            str.AppendLine($"Stored in: VirtualStorage({pos.x}, {pos.y})");
         }
         else
         {
-            str.AppendLine("error: item not in any storage");
+            str.AppendLine("Stored in ExternalStorage");
         }
 
         TooltipHandler.TipRegion(rect, str.ToTaggedString());
@@ -185,7 +185,7 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
             }
         }
 
-        foreach (var item in ItemInterface.GetVirtualItems())
+        foreach (var item in ItemInterface.GetAllItems())
         {
             if (matchers.All(matcher => matcher(item)))
             {

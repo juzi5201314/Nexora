@@ -19,7 +19,8 @@ public static class ReservationManagerPatch
             if (reservation.Claimant == claimant && reservation.Job == job && reservation.Target.HasThing &&
                 reservation.Target.Thing.holdingOwner is AccessInterfaceThingOwnerProxy owner)
             {
-                owner.ReturnToNetwork(reservation.Target.Thing);
+                var num = reservation.StackCount == -1 ? reservation.Target.Thing.stackCount : reservation.StackCount;
+                owner.ReturnToNetwork(reservation.Target.Thing, num);
             }
         }
     }

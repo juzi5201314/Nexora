@@ -107,7 +107,7 @@ public class Building_LocalStorage : Building, IThingHolder, IHaulSource
                     -50,
                     100,
                     value => { Network.ChangeProperty(Storage!, value); },
-                    Storage?.Priority ?? 0
+                    Storage?.priority ?? 0
                 ));
             }
         };
@@ -143,7 +143,7 @@ public class Building_LocalStorage : Building, IThingHolder, IHaulSource
     {
         var s = new StringBuilder(base.GetInspectString());
         s.AppendLine();
-        s.AppendLine($"{"Priority".Translate()}: {Storage!.Priority}");
+        s.AppendLine($"{"Priority".Translate()}: {Storage!.Priority()}");
         foreach (var s1 in CompDataFormat.GetExtraInspectString(Storage!))
         {
             s.AppendLine(s1);
