@@ -13,7 +13,7 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
     public LocalNetwork Network => Map.GetComponent<LocalNetwork>();
 
     public HashSet<IntVec3> CellsInRange = [];
-    internal int priority = 0;
+    internal int priority = -1;
 
     public readonly HashSet<Building_Storage> ExternalStorages = [];
     public readonly HashSet<IThingHolder> ExternalContainers = [];
@@ -96,7 +96,7 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
     public override void ExposeData()
     {
         base.ExposeData();
-        Scribe_Values.Look(ref priority, "priority");
+        Scribe_Values.Look(ref priority, "priority", -1);
     }
 
     public override void DrawExtraSelectionOverlays()
