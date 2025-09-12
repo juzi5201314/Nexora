@@ -10,6 +10,7 @@ namespace Nexora.Patches;
 [HarmonyPatch(typeof(FoodUtility))]
 public static class FoodUtilityPatch
 {
+    // 在存储网络寻找best food
     [HarmonyPatch(nameof(FoodUtility.BestFoodSourceOnMap))]
     [HarmonyTranspiler]
     public static IEnumerable<CodeInstruction> BestFoodSourceOnMap(IEnumerable<CodeInstruction> instructions,

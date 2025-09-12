@@ -38,6 +38,5 @@ public static class GenClosestPatch
         if (thing == null) return;
 
         __result = thing;
-        Log.Message($"ClosestThingReachable: {__result.LabelCap}");
     }
 }
