@@ -135,7 +135,8 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
                     return;
                 }
 
-                foreach (var thing in GetExternalItems().ToPooledList())
+                using var pooledList = GetExternalItems().ToPooledList();
+                foreach (var thing in pooledList)
                 {
                     var num = Math.Min(Network.GetCountCanAccept(thing), thing.stackCount);
                     Network.TryAddItem(thing.SplitOff(num));

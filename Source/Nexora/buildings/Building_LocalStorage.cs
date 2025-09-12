@@ -88,7 +88,8 @@ public class Building_LocalStorage : Building, IThingHolder, IHaulSource
                     return;
                 }
 
-                foreach (var thing in Storage!.ToPooledList())
+                using var pooledList = Storage!.ToPooledList();
+                foreach (var thing in pooledList)
                 {
                     Network.TryAddItem(thing);
                 }
