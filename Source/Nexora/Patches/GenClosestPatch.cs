@@ -18,8 +18,8 @@ public static class GenClosestPatch
         ThingRequest thingReq,
         PathEndMode peMode,
         TraverseParms traverseParams,
-        float maxDistance = 9999f,
-        Predicate<Thing> validator = null)
+        float maxDistance,
+        Predicate<Thing> validator)
     {
         var network = map.GetComponent<LocalNetwork>();
         if (network == null) return;
