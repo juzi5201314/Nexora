@@ -77,6 +77,16 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
 
         return added;
     }
+    
+    public void AddItemOrOverflow(Thing item, IntVec3 pos)
+    {
+        var total = item.stackCount;
+        var added = TryAddItem(item);
+        if (added != total && item.stackCount > 0 && !item.Destroyed)
+        {
+            GenDrop.TryDropSpawn(item, pos, map, ThingPlaceMode.Near, out _);
+        }
+    }
 
     public IEnumerable<Thing> GetVirtualItems()
     {

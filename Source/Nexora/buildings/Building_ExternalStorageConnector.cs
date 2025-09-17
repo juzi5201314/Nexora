@@ -64,7 +64,7 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
             case Building_Storage storage:
                 foreach (var thing in storage.slotGroup.HeldThings)
                 {
-                    thing.holdingOwner = EmptyThingOwner.Instance;
+                    thing.holdingOwner = new EmptyThingOwner(storage);
                 }
 
                 ExternalStorages.Add(storage);
@@ -190,7 +190,7 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
                         if (res != null)
                         {
                             added += res.stackCount;
-                            res.holdingOwner = EmptyThingOwner.Instance;
+                            res.holdingOwner = new EmptyThingOwner(storage);
                         }
 
                         if (added >= total || item.Destroyed || item.stackCount <= 0)
@@ -242,9 +242,9 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
 }
 
 // 一个空的ThingOwner，仅用于判断放置在地图格子上的Thing是否包含在ExternalStorage中
-public class EmptyThingOwner : ThingOwner
+public class EmptyThingOwner(Building_Storage storage) : ThingOwner
 {
-    public static readonly EmptyThingOwner Instance = new();
+    internal Building_Storage Storage = storage;
 
     public override int TryAdd(Thing item, int count, bool canMergeWithExistingStacks = true)
     {

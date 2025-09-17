@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Nexora.buildings;
 using Nexora.network;
 using Nexora.ui.utils;
 using RimWorld;
@@ -17,12 +18,13 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
 
     private QuickSearchFilter filter = new();
 
-    public IItemInterface ItemInterface = itemInterface;
+    public readonly IItemInterface? ItemInterface = itemInterface;
     private bool Initialized = false;
 
     private static Texture2D webIcon = ContentFinder<Texture2D>.Get("UI/WebIcon");
 
-    public override Vector2 InitialSize => new(UI.screenWidth * 0.7f, UI.screenHeight * 0.7f);
+    private static Vector2 Size = new(UI.screenWidth * 0.7f, UI.screenHeight * 0.7f);
+    public override Vector2 InitialSize => Size;
 
     public override void DoWindowContents(Rect inRect)
     {
@@ -75,22 +77,23 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
         for (var i = firstVisibleIndex; i <= lastVisibleIndex; i++)
         {
             var item = filteredItems[i];
-            DrawItemRow(listing.GetRect(rowHeight), item.GetInnerIfMinified());
+            DrawItemRow(listing.GetRect(rowHeight), item);
         }
 
         listing.End();
         Widgets.EndScrollView();
     }
 
-    private void DrawItemRow(Rect rect, Thing item)
+    private void DrawItemRow(Rect rect, Thing item2)
     {
+        var item = item2.GetInnerIfMinified();
         if (Mouse.IsOver(rect))
         {
             Widgets.DrawHighlight(rect);
         }
 
         var webIconRect = rect.GetLeft(rect.height).ContractedBy(3f);
-        DrawNetworkInfoTooltip(webIconRect, item);
+        DrawNetworkInfoTooltip(webIconRect, item2);
 
         TooltipHandler.TipRegion(rect,
             $"{GenLabel.ThingLabel(item, item.stackCount)}\n\n{item.def.description ?? ""}");
@@ -114,19 +117,38 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
         DrawMarketValue(markerValueRect, item);
         DrawMass(massRect, item);
         Widgets.LabelEllipses(labelRect, label);
+        if (Widgets.ButtonInvisible(labelRect))
+        {
+            Find.Selector.ClearSelection();
+            Find.Selector.Select(item2);
+            Find.CameraDriver.JumpToCurrentMapLoc(item2.PositionHeld);
+        }
     }
 
     private void DrawNetworkInfoTooltip(Rect rect, Thing item)
     {
         var str = new StringBuilder();
-        if (item.holdingOwner is ItemStorage storage)
+        Thing? holder = null;
+        if (item.holdingOwner.Owner is Thing thing)
         {
-            var pos = storage.Owner.Position;
-            str.AppendLine($"Stored in: VirtualStorage({pos.x}, {pos.y})");
+            str.AppendLine($"Stored in {thing.LabelCap}");
+            holder = thing;
+        }
+        else if (item.holdingOwner is EmptyThingOwner owner)
+        {
+            str.AppendLine($"Stored in {owner.Storage.LabelCap}");
+            holder = owner.Storage;
         }
         else
         {
-            str.AppendLine("Stored in ExternalStorage");
+            str.AppendLine("Stored in unknown");
+        }
+
+        if (holder != null && Widgets.ButtonInvisible(rect))
+        {
+            Find.Selector.ClearSelection();
+            Find.Selector.Select(holder);
+            Find.CameraDriver.JumpToCurrentMapLoc(holder.PositionHeld);
         }
 
         TooltipHandler.TipRegion(rect, str.ToTaggedString());
@@ -185,7 +207,7 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
             }
         }
 
-        foreach (var item in ItemInterface.GetAllItems())
+        foreach (var item in ItemInterface!.GetAllItems())
         {
             if (matchers.All(matcher => matcher(item)))
             {
