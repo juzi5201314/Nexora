@@ -38,7 +38,7 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
         return success;
     }
 
-    public DynWorkRate? RequestWorkrate(int value, int priority, int? expected = null)
+    public DynWorkRate? RequestWorkrate(int value, int priority, int? expected = null, bool skipDeviceCheck = false)
     {
         for (var i = DynWorkRates.Count - 1; i >= 0 && AvailableWorkrate < value; i--)
         {
@@ -48,7 +48,7 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
                 break;
             }
 
-            if (DynWorkRates.Count >= MaxDevices)
+            if (!skipDeviceCheck && DynWorkRates.Count >= MaxDevices)
             {
                 ReleaseWorkRate(lowerPriorityWorkRate);
                 continue;

@@ -315,7 +315,7 @@ public class Building_AutoWorker : Building
             return;
         }
 
-        var newWorkRate = Network.RequestWorkrate(requireWorkrate, priority);
+        var newWorkRate = Network.RequestWorkrate(requireWorkrate, priority, skipDeviceCheck: true);
         if (newWorkRate == null)
         {
             return;
