@@ -11,6 +11,7 @@ namespace Nexora.buildings;
 public class Building_ExternalStorageConnector : Building, IItemInterface
 {
     public LocalNetwork Network => Map.GetComponent<LocalNetwork>();
+    public event Action? OnItemChanged;
 
     public HashSet<IntVec3> CellsInRange = [];
     internal int priority = -1;
@@ -187,6 +188,7 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
                 {
                     if (GenDrop.TryDropSpawn(item, cell, Map, ThingPlaceMode.Direct, out var res))
                     {
+                        OnItemChanged?.Invoke();
                         if (res != null)
                         {
                             added += res.stackCount;

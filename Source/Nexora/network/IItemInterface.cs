@@ -4,6 +4,8 @@ namespace Nexora.network;
 
 public interface IItemInterface
 {
+    public event Action OnItemChanged; 
+    
     public abstract IEnumerable<Thing> GetVirtualItems();
     public abstract IEnumerable<Thing> GetExternalItems();
     public abstract IEnumerable<Thing> GetAllItems();

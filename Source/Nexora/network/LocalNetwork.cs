@@ -8,6 +8,8 @@ namespace Nexora.network;
 
 public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
 {
+    public event Action? OnItemChanged;
+
     public readonly HashSet<IItemInterface> Storages = [];
     public readonly List<IItemInterface> SortedStorages = [];
 
@@ -188,6 +190,11 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
             }
         }
 
+        if (added > 0)
+        {
+            OnItemChanged?.Invoke();
+        }
+
         return added;
     }
 
@@ -264,7 +271,7 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
 
             var dynWorkRate = DynWorkRates[i];
             if (!dynWorkRate.Low) continue;
-            
+
             var lack = dynWorkRate.Expected - dynWorkRate.Value;
             if (lack < 0)
             {
@@ -394,5 +401,10 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
                 return canReach.Value.DistanceTo(i.Position) <= radius && map.reachability.CanReach(
                     canReach.Value, i, PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn));
             });
+    }
+
+    public void AutoOrganize()
+    {
+        
     }
 }

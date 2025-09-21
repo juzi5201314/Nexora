@@ -39,6 +39,7 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
 
             RefreshItemList();
             Initialized = true;
+            ItemInterface.OnItemChanged += RefreshItemList;
         }
 
         var netPanel = inRect.RightPart(0.2f);
@@ -48,7 +49,7 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
         Widgets.DrawLineHorizontal(itemList.x, itemList.y, itemList.width);
         itemList.yMin += 10f;
         DrawItemList(itemList);
-        DrawNetPanel(netPanel.ContractedBy(10f));
+        DrawNetPanel(netPanel.RightPartPixels(netPanel.width - 10f));
 
         using var _ = Styles.TextAnchor(TextAnchor.MiddleCenter);
         var newSearch = Widgets.TextField(searchRect.ContractedBy(5f), search);
@@ -67,8 +68,19 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
         listing.Begin(rect);
         listing.Gap(20f);
 
-        Widgets.TextArea(listing.GetRect(30f), $"{network.UsedWorkrate} / {network.TotalWorkrate}", true);
-        
+        if (listing.ButtonText("Auto organize"))
+        {
+            network.AutoOrganize();
+        }
+
+        listing.Gap(20f);
+
+        var sb = new StringBuilder();
+        sb.AppendFormat("workrate: {0} / {1}", network.UsedWorkrate, network.TotalWorkrate);
+        sb.AppendLine();
+        sb.AppendFormat("devices: {0} / {1}", network.DynWorkRates.Count, network.MaxDevices);
+        Widgets.TextArea(listing.GetRect(30f), sb.ToString(), true);
+
         listing.End();
     }
 
@@ -92,6 +104,15 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
         for (var i = firstVisibleIndex; i <= lastVisibleIndex; i++)
         {
             var item = filteredItems[i];
+            if (item.Destroyed || item.stackCount == 0 || (item.holdingOwner is not ItemStorage or EmptyThingOwner &&
+                                                           !ItemInterface.Contains(item)))
+            {
+                filteredItems.Remove(item);
+                i -= 1;
+                lastVisibleIndex -= 1;
+                continue;
+            }
+
             DrawItemRow(listing.GetRect(rowHeight), item);
         }
 
@@ -236,5 +257,11 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
     private void OnSearch()
     {
         RefreshItemList();
+    }
+
+    public override void PostClose()
+    {
+        ItemInterface.OnItemChanged -= RefreshItemList;
+        base.PostClose();
     }
 }

@@ -13,6 +13,8 @@ namespace Nexora;
 
 public class ItemStorage(Building_LocalStorage owner) : ThingOwner(owner), IItemInterface, IExposable
 {
+    public event Action? OnItemChanged;
+
     internal readonly Dictionary<ThingDef, Dictionary<Thing, int>> IndexTable = new();
     internal List<Thing> Container = [];
     internal int priority = 0;
@@ -111,6 +113,8 @@ public class ItemStorage(Building_LocalStorage owner) : ThingOwner(owner), IItem
         {
             other.DeSpawnOrDeselect();
         }
+
+        OnItemChanged?.Invoke();
 
         foreach (var thing in dict!.Keys)
         {
