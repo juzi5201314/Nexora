@@ -13,7 +13,108 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
 
     public readonly HashSet<Building_AccessInterface> AccessInterfaces = [];
 
+    public readonly HashSet<Building_CPU> Cpus = [];
+    public List<DynWorkRate> DynWorkRates = [];
+
+    public int AvailableWorkrate => TotalWorkrate - UsedWorkrate;
+    public int UsedWorkrate { get; set; }
+    public int TotalWorkrate { get; set; }
+    public int MaxDevices { get; set; }
+
     public LocalNetwork Network() => this;
+
+    public void Connect(Building_CPU cpu)
+    {
+        Cpus.Add(cpu);
+        OnCpuChange();
+    }
+
+    public bool Disconnect(Building_CPU cpu)
+    {
+        var success = Cpus.Remove(cpu);
+        OnCpuChange();
+        return success;
+    }
+
+    public DynWorkRate? RequestWorkrate(int value, int priority, int? expected = null)
+    {
+        for (var i = DynWorkRates.Count - 1; i >= 0 && AvailableWorkrate < value; i--)
+        {
+            var lowerPriorityWorkRate = DynWorkRates[i];
+            if (lowerPriorityWorkRate.Priority >= priority)
+            {
+                break;
+            }
+
+            if (DynWorkRates.Count >= MaxDevices)
+            {
+                ReleaseWorkRate(lowerPriorityWorkRate);
+                continue;
+            }
+
+            if (AvailableWorkrate < value)
+            {
+                if (lowerPriorityWorkRate.Value <= value)
+                {
+                    ReleaseWorkRate(lowerPriorityWorkRate);
+                    continue;
+                }
+
+                ReleaseWorkRate(lowerPriorityWorkRate, value);
+            }
+        }
+
+        var num = Math.Min(AvailableWorkrate, value);
+        if (num > 0)
+        {
+            UsedWorkrate += num;
+            var dynWorkRate = new DynWorkRate(num, priority)
+            {
+                Expected = expected ?? value,
+            };
+            var index = DynWorkRates.BinarySearch(dynWorkRate,
+                Comparer<DynWorkRate>.Create((a, b) => b.Priority.CompareTo(a.Priority)));
+            DynWorkRates.Insert(index < 0 ? ~index : index, dynWorkRate);
+            return dynWorkRate;
+        }
+
+        return null;
+    }
+
+    public void ReleaseWorkRate(DynWorkRate workRate, int value)
+    {
+        if (workRate.Released)
+        {
+            Log.Error("[Nexora] duplicate release of workrate");
+            return;
+        }
+
+        if (value >= workRate.Value)
+        {
+            ReleaseWorkRate(workRate);
+            return;
+        }
+
+        workRate.Value -= value;
+        UsedWorkrate -= value;
+    }
+
+    public void ReleaseWorkRate(DynWorkRate workRate, bool keepValue = false)
+    {
+        if (workRate.Released)
+        {
+            Log.Error("[Nexora] duplicate release of workrate");
+            return;
+        }
+
+        if (!keepValue)
+        {
+            UsedWorkrate -= workRate.Value;
+        }
+
+        DynWorkRates.Remove(workRate);
+        workRate.Released = true;
+    }
 
     public void Connect(IItemInterface storage)
     {
@@ -42,6 +143,18 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
         }
 
         return b1;
+    }
+
+    public DynWorkRate? ChangeProperty(DynWorkRate workRate, int priority)
+    {
+        if (!workRate.Released)
+        {
+            workRate.Priority = priority;
+            ReleaseWorkRate(workRate);
+            return RequestWorkrate(workRate.Expected, priority);
+        }
+
+        return null;
     }
 
     public void ChangeProperty(ItemStorage storage, int priority)
@@ -77,7 +190,7 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
 
         return added;
     }
-    
+
     public void AddItemOrOverflow(Thing item, IntVec3 pos)
     {
         var total = item.stackCount;
@@ -101,6 +214,69 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
     public IEnumerable<Thing> GetAllItems()
     {
         return Storages.SelectMany(s => s.GetAllItems());
+    }
+
+    private void OnCpuChange()
+    {
+        TotalWorkrate = (int)Cpus.Sum(cpu => cpu.TotalWorkrate);
+        MaxDevices = (int)Cpus.Sum(cpu => cpu.WorkrateComp.Props.maxDevices);
+        if (DynWorkRates.Count > MaxDevices)
+        {
+            for (var i = DynWorkRates.Count - 1; i >= MaxDevices; i--)
+            {
+                ReleaseWorkRate(DynWorkRates[i]);
+            }
+        }
+
+        if (UsedWorkrate > TotalWorkrate)
+        {
+            var lack = UsedWorkrate - TotalWorkrate;
+            for (var i = DynWorkRates.Count - 1; i >= 0; i--)
+            {
+                var dynWorkRate = DynWorkRates[i];
+                if (dynWorkRate.Value <= lack)
+                {
+                    lack -= dynWorkRate.Value;
+                    ReleaseWorkRate(dynWorkRate);
+                }
+                else
+                {
+                    dynWorkRate.Value -= lack;
+                    UsedWorkrate -= lack;
+                    break;
+                }
+            }
+
+            if (UsedWorkrate != TotalWorkrate)
+            {
+                Log.Warning(
+                    $"[Nexora] Reduce Workrate exception, UsedWorkrate: {UsedWorkrate}, TotalWorkrate: {TotalWorkrate}");
+                UsedWorkrate = TotalWorkrate;
+            }
+        }
+
+        for (var i = 0; i < DynWorkRates.Count; i++)
+        {
+            if (AvailableWorkrate <= 0)
+            {
+                break;
+            }
+
+            var dynWorkRate = DynWorkRates[i];
+            if (!dynWorkRate.Low) continue;
+            
+            var lack = dynWorkRate.Expected - dynWorkRate.Value;
+            if (lack < 0)
+            {
+                ReleaseWorkRate(dynWorkRate, -lack);
+            }
+            else
+            {
+                var num = Math.Min(lack, AvailableWorkrate);
+                dynWorkRate.Value += num;
+                UsedWorkrate += num;
+            }
+        }
     }
 
     public NetworkInfo Info() => new()

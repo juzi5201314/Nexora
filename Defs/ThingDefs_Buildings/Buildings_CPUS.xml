@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <ThingDef Name="CPUBase" ParentName="BuildingBase" Abstract="True">
+        <thingClass>Nexora.buildings.Building_CPU</thingClass>
+        <designationCategory>Nexora</designationCategory>
+        <rotatable>true</rotatable>
+        <altitudeLayer>Building</altitudeLayer>
+        <size>(1,1)</size>
+        <category>Building</category>
+        <thingCategories>
+            <li>Buildings</li>
+        </thingCategories>
+        <statBases>
+            <MaxHitPoints>1000</MaxHitPoints>
+            <WorkToBuild>800</WorkToBuild>
+            <Mass>5</Mass>
+            <Flammability>0.0</Flammability>
+            <Beauty>0.3</Beauty>
+        </statBases>
+        <minifiedDef>MinifiedThing</minifiedDef>
+        <passability>Standable</passability>
+        <pathCost>0</pathCost>
+        <fillPercent>0.0</fillPercent>
+        <building>
+            <relatedBuildCommands>
+                <li>Nexora_AutoWorker</li>
+            </relatedBuildCommands>
+        </building>
+        <tickerType>Normal</tickerType>
+    </ThingDef>
+
+    <ThingDef ParentName="CPUBase">
+        <defName>Nexora_CPU01a</defName>
+        <label>CPU 01</label>
+        <description>A cpu</description>
+        <graphicData>
+            <texPath>Things/CPU01</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <costList>
+            <Steel>100</Steel>
+            <ComponentIndustrial>2</ComponentIndustrial>
+        </costList>
+
+        <comps>
+            <li Class="CompProperties_Glower">
+                <glowRadius>1</glowRadius>
+                <glowColor>(255, 255, 0, 0)</glowColor>
+            </li>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>100</basePowerConsumption>
+            </li>
+            <li Class="Nexora.comp.CompProperties_Workrate">
+                <ops>15</ops>
+                <maxDevices>1</maxDevices>
+            </li>
+        </comps>
+    </ThingDef>
+
+    <ThingDef ParentName="CPUBase">
+        <defName>Nexora_CPU02a</defName>
+        <label>CPU 02</label>
+        <description>A cpu</description>
+        <graphicData>
+            <texPath>Things/CPU02</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <costList>
+            <Steel>100</Steel>
+            <ComponentIndustrial>2</ComponentIndustrial>
+        </costList>
+
+        <comps>
+            <li Class="CompProperties_Glower">
+                <glowRadius>1</glowRadius>
+                <glowColor>(0, 255, 255, 0)</glowColor>
+            </li>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>300</basePowerConsumption>
+            </li>
+            <li Class="Nexora.comp.CompProperties_Workrate">
+                <ops>50</ops>
+                <maxDevices>3</maxDevices>
+            </li>
+        </comps>
+    </ThingDef>
+    
+    <ThingDef ParentName="CPUBase">
+        <defName>Nexora_CPU03a</defName>
+        <label>CPU 03</label>
+        <description>A cpu</description>
+        <graphicData>
+            <texPath>Things/CPU03</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <costList>
+            <Steel>100</Steel>
+            <ComponentIndustrial>2</ComponentIndustrial>
+        </costList>
+
+        <comps>
+            <li Class="CompProperties_Glower">
+                <glowRadius>1</glowRadius>
+                <glowColor>(0, 255, 255, 0)</glowColor>
+            </li>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>300</basePowerConsumption>
+            </li>
+            <li Class="Nexora.comp.CompProperties_Workrate">
+                <ops>256</ops>
+                <maxDevices>7</maxDevices>
+            </li>
+        </comps>
+    </ThingDef>
+
+    <ThingDef ParentName="CPUBase">
+        <defName>Nexora_CPU04a</defName>
+        <label>CPU 04</label>
+        <description>A cpu</description>
+        <graphicData>
+            <texPath>Things/CPU04</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <costList>
+            <Steel>100</Steel>
+            <ComponentIndustrial>2</ComponentIndustrial>
+        </costList>
+
+        <comps>
+            <li Class="CompProperties_Glower">
+                <glowRadius>1</glowRadius>
+                <glowColor>(0, 255, 255, 0)</glowColor>
+            </li>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>300</basePowerConsumption>
+            </li>
+            <li Class="Nexora.comp.CompProperties_Workrate">
+                <ops>1024</ops>
+                <maxDevices>10</maxDevices>
+            </li>
+        </comps>
+    </ThingDef>
+
+    <ThingDef ParentName="CPUBase">
+        <defName>Nexora_CPU05a</defName>
+        <label>CPU 05</label>
+        <description>A cpu</description>
+        <graphicData>
+            <texPath>Things/CPU05</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <costList>
+            <Steel>100</Steel>
+            <ComponentIndustrial>2</ComponentIndustrial>
+        </costList>
+
+        <comps>
+            <li Class="CompProperties_Glower">
+                <glowRadius>1</glowRadius>
+                <glowColor>(0, 255, 255, 0)</glowColor>
+            </li>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>300</basePowerConsumption>
+            </li>
+            <li Class="Nexora.comp.CompProperties_Workrate">
+                <ops>4096</ops>
+                <maxDevices>15</maxDevices>
+            </li>
+        </comps>
+    </ThingDef>
+
+    <ThingDef ParentName="CPUBase">
+        <defName>Nexora_CPU06a</defName>
+        <label>CPU 06</label>
+        <description>A cpu</description>
+        <graphicData>
+            <texPath>Things/CPU06</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <costList>
+            <Steel>100</Steel>
+            <ComponentIndustrial>2</ComponentIndustrial>
+        </costList>
+
+        <comps>
+            <li Class="CompProperties_Glower">
+                <glowRadius>1</glowRadius>
+                <glowColor>(0, 255, 255, 0)</glowColor>
+            </li>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>300</basePowerConsumption>
+            </li>
+            <li Class="Nexora.comp.CompProperties_Workrate">
+                <ops>16384</ops>
+                <maxDevices>15</maxDevices>
+            </li>
+        </comps>
+    </ThingDef>
+</Defs>

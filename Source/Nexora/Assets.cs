@@ -11,6 +11,9 @@ public static class Assets
     public static readonly Texture2D MoveItem;
     public static readonly Texture2D Input;
     public static readonly Texture2D Output;
+    public static readonly Texture2D Overclocking;
+    public static readonly Texture2D Resume;
+    public static readonly Texture2D Pause;
 
     static Assets()
     {
@@ -20,5 +23,8 @@ public static class Assets
         MoveItem = holder.Get("UI/MoveItem");
         Input = holder.Get("UI/Input");
         Output = holder.Get("UI/Output");
+        Overclocking = holder.Get("UI/Overclocking");
+        Resume = holder.Get("UI/Resume");
+        Pause = holder.Get("UI/Pause");
     }
 }

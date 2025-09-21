@@ -64,9 +64,10 @@ public static class Recipe
         List<Thing> ingredients,
         Thing? dominantIngredient,
         IBillGiver billGiver,
-        Precept_ThingStyle? precept = null,
-        ThingStyleDef? style = null,
-        int? overrideGraphicIndex = null)
+        Precept_ThingStyle precept,
+        ThingStyleDef? style,
+        QualityCategory quality,
+        int? overrideGraphicIndex)
     {
         var efficiency = 1f;
         if (recipeDef.workTableEfficiencyStat != null && billGiver is Building_WorkTable thing1)
@@ -90,7 +91,7 @@ public static class Recipe
                 }
 
                 thing2.Notify_RecipeProduced(worker);
-                yield return PostProcessProduct(thing2, recipeDef, worker, precept, style,
+                yield return PostProcessProduct(thing2, recipeDef, worker, precept, style, quality,
                     overrideGraphicIndex);
             }
         }
@@ -107,42 +108,44 @@ public static class Recipe
                         case SpecialProductType.Butchery:
                             foreach (Thing butcherProduct in ingredient.ButcherProducts(worker, efficiency))
                                 yield return PostProcessProduct(butcherProduct, recipeDef, worker, precept,
-                                    style, overrideGraphicIndex);
+                                    style, quality, overrideGraphicIndex);
                             break;
                         case SpecialProductType.Smelted:
                             foreach (Thing smeltProduct in ingredient.SmeltProducts(efficiency))
                                 yield return PostProcessProduct(smeltProduct, recipeDef, worker, precept,
-                                    style, overrideGraphicIndex);
+                                    style, quality, overrideGraphicIndex);
                             break;
                     }
                 }
             }
         }
     }
-    
+
     private static Thing PostProcessProduct(
         Thing product,
         RecipeDef recipeDef,
         Pawn worker,
-        Precept_ThingStyle precept = null,
-        ThingStyleDef style = null,
-        int? overrideGraphicIndex = null)
+        Precept_ThingStyle precept,
+        ThingStyleDef? style,
+        QualityCategory quality,
+        int? overrideGraphicIndex)
     {
         CompQuality comp1 = product.TryGetComp<CompQuality>();
         if (comp1 != null)
         {
             if (recipeDef.workSkill == null)
                 Log.Error(recipeDef?.ToString() + " needs workSkill because it creates a product with a quality.");
-            var qualityCreatedByPawn = QualityCategory.Masterwork;
-            comp1.SetQuality(qualityCreatedByPawn, ArtGenerationContext.Colony);
+            comp1.SetQuality(quality, ArtGenerationContext.Colony);
         }
+
         CompArt comp2 = product.TryGetComp<CompArt>();
         if (comp2 != null)
         {
             comp2.JustCreatedBy(worker);
             if (comp1 != null && comp1.Quality >= QualityCategory.Excellent)
-                TaleRecorder.RecordTale(TaleDefOf.CraftedArt, (object) worker, (object) product);
+                TaleRecorder.RecordTale(TaleDefOf.CraftedArt, (object)worker, (object)product);
         }
+
         if (comp1 != null)
             QualityUtility.SendCraftNotification(product, worker);
         if (precept != null)
@@ -150,10 +153,11 @@ public static class Recipe
         else if (style != null)
             product.StyleDef = style;
         else if (!product.def.randomStyle.NullOrEmpty<ThingStyleChance>() && Rand.Chance(product.def.randomStyleChance))
-            product.SetStyleDef(product.def.randomStyle.RandomElementByWeight<ThingStyleChance>((Func<ThingStyleChance, float>) (x => x.Chance)).StyleDef);
+            product.SetStyleDef(product.def.randomStyle
+                .RandomElementByWeight<ThingStyleChance>((Func<ThingStyleChance, float>)(x => x.Chance)).StyleDef);
         product.overrideGraphicIndex = overrideGraphicIndex;
         if (product.def.Minifiable)
-            product = (Thing) product.MakeMinified();
+            product = (Thing)product.MakeMinified();
         return product;
     }
 }

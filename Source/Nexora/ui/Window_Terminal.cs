@@ -18,7 +18,7 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
 
     private QuickSearchFilter filter = new();
 
-    public readonly IItemInterface? ItemInterface = itemInterface;
+    public readonly IItemInterface ItemInterface = itemInterface;
     private bool Initialized = false;
 
     private static Texture2D webIcon = ContentFinder<Texture2D>.Get("UI/WebIcon");
@@ -41,12 +41,14 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
             Initialized = true;
         }
 
+        var netPanel = inRect.RightPart(0.2f);
         var itemList = inRect.LeftPart(0.8f);
         var searchRect = itemList.TopPartPixels(Text.LineHeight * 1.5f);
         itemList.yMin += searchRect.height + 10f;
         Widgets.DrawLineHorizontal(itemList.x, itemList.y, itemList.width);
         itemList.yMin += 10f;
         DrawItemList(itemList);
+        DrawNetPanel(netPanel.ContractedBy(10f));
 
         using var _ = Styles.TextAnchor(TextAnchor.MiddleCenter);
         var newSearch = Widgets.TextField(searchRect.ContractedBy(5f), search);
@@ -55,6 +57,19 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
             search = newSearch;
             OnSearch();
         }
+    }
+
+    private void DrawNetPanel(Rect rect)
+    {
+        using var textAnchor = Styles.TextAnchor(TextAnchor.MiddleCenter);
+        var network = ItemInterface.Network();
+        var listing = new Listing_Standard();
+        listing.Begin(rect);
+        listing.Gap(20f);
+
+        Widgets.TextArea(listing.GetRect(30f), $"{network.UsedWorkrate} / {network.TotalWorkrate}", true);
+        
+        listing.End();
     }
 
     private void DrawItemList(Rect rect)
