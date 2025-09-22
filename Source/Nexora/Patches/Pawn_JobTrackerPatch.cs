@@ -77,8 +77,11 @@ public static class Pawn_JobTrackerPatch
                 var other = item.SplitOff(num);
                 //GenDrop.TryDropSpawn(other, inter.Position, inter.Map, ThingPlaceMode.Direct, out var res);
                 utils.GenPlace.TryPlaceItemWithStacking(other, inter.Position, inter.Map, out var res);
-                inter.InnerThingOwner.AddTempThing(res);
-                return (new LocalTargetInfo(res), num);
+                if (res != null)
+                {
+                    inter.InnerThingOwner.AddTempThing(res);
+                    return (new LocalTargetInfo(res), num);
+                }
             }
 
             return (target, count);

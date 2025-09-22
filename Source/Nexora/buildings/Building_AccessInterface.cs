@@ -125,7 +125,7 @@ public class Building_AccessInterface : Building, IHaulDestination, IThingHolder
         if (InnerThingOwner.Temp.Count > 0)
         {
             using var pooledList = InnerThingOwner.Temp.ToPooledList();
-            foreach (var (thing, _) in pooledList)
+            foreach (var thing in pooledList)
             {
                 // 在暂存区但是没有被预留的物品
                 // 可能是之前被作为job target但是中途出现异常导致没有release的
@@ -145,12 +145,12 @@ public class AccessInterfaceThingOwnerProxy(Building_AccessInterface parent) : T
     // 此处的Thing应当只是暂时存放在访问接口中
     // 它们应该马上会被拿走
     // 或者在不需要使用时马上被返回到存储网络中
-    public readonly Dictionary<Thing, object> Temp = [];
+    public readonly HashSet<Thing> Temp = [];
 
     public void AddTempThing(Thing thing)
     {
         thing.holdingOwner = this;
-        Temp[thing] = typeof(void);
+        Temp.Add(thing);
     }
 
     public bool ReturnToNetwork(Thing thing, int count)

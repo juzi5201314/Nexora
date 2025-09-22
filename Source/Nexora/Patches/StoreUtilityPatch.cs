@@ -10,13 +10,15 @@ namespace Nexora.Patches;
 public static class StoreUtilityPatch
 {
     // 不允许将Nexora存储中的物品移动到Nexora访问接口。这会造成无限循环
-    [HarmonyPatch(nameof(StoreUtility.TryFindBestBetterNonSlotGroupStorageFor))]
+    [HarmonyPatch(nameof(StoreUtility.TryFindBestBetterStorageFor))]
     [HarmonyPostfix]
-    public static void TryFindBestBetterNonSlotGroupStorageFor(Thing t, ref IHaulDestination haulDestination,
+    public static void TryFindBestBetterStorageFor(Thing t, ref IHaulDestination haulDestination,
         ref bool __result)
     {
-        var network = t.Map.GetComponent<LocalNetwork>();
-        if (network.Managed(t) && haulDestination is Building_AccessInterface)
+        var h = haulDestination;
+        var network = t.MapHeld.GetComponent<LocalNetwork>();
+        if (network.Managed(t) && (haulDestination is Building_AccessInterface || network.Storages
+                .OfType<Building_ExternalStorageConnector>().Any(b => b.ExternalStorages.Contains(h))))
         {
             haulDestination = null!;
             __result = false;
