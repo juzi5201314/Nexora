@@ -186,19 +186,29 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
             {
                 if (cell.IsValidStorageFor(Map, item))
                 {
-                    if (GenDrop.TryDropSpawn(item, cell, Map, ThingPlaceMode.Direct, out var res))
+                    var thing = item.SplitOff(Math.Min(item.stackCount, item.def.stackLimit));
+                    Thing? res = null;
+                    var num = 0;
+                    GenDrop.TryDropSpawn(thing, cell, Map, ThingPlaceMode.Direct, out _, (res1, num1) =>
                     {
-                        OnItemChanged?.Invoke();
-                        if (res != null)
-                        {
-                            added += res.stackCount;
-                            res.holdingOwner = new EmptyThingOwner(storage);
-                        }
+                        res = res1;
+                        num = num1;
+                    });
+                    OnItemChanged?.Invoke();
+                    added += num;
+                    if (res != null)
+                    {
+                        res.holdingOwner = new EmptyThingOwner(storage);
+                    }
 
-                        if (added >= total || item.Destroyed || item.stackCount <= 0)
-                        {
-                            return added;
-                        }
+                    if (added >= total || item.Destroyed || item.stackCount <= 0)
+                    {
+                        return added;
+                    }
+
+                    if (res != thing && !thing.Destroyed && thing.stackCount > 0)
+                    {
+                        item.stackCount += thing.stackCount;
                     }
                 }
             }

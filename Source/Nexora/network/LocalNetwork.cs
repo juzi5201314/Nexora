@@ -1,4 +1,5 @@
 ﻿using Nexora.buildings;
+using Nexora.utils.pooled;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -405,6 +406,17 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
 
     public void AutoOrganize()
     {
-        
+        using var storages = SortedStorages.ToPooledList();
+        for (var i = storages.Count - 1; i >= 1; i--)
+        {
+            var storage = storages[i];
+            foreach (var item in storage.GetAllItems().ToList())
+            {
+                if (storages[i - 1].GetCountCanAccept(item) > 0)
+                {
+                    TryAddItem(item.SplitOff(item.stackCount));
+                }
+            }
+        }
     }
 }
