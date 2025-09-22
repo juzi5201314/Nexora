@@ -16,4 +16,20 @@ public static class ThingOwnerUtilityPatch
         __result = accessInterface.InnerThingOwner;
         return false;
     }
+
+    // 使得在虚拟存储中的食物冷藏
+    [HarmonyPatch(nameof(ThingOwnerUtility.TryGetFixedTemperature))]
+    [HarmonyPrefix]
+    public static bool TryGetFixedTemperature(IThingHolder holder, Thing forThing, ref float temperature,
+        ref bool __result)
+    {
+        if (holder is Building_LocalStorage)
+        {
+            temperature = float.MinValue;
+            __result = true;
+            return false;
+        }
+
+        return true;
+    }
 }
