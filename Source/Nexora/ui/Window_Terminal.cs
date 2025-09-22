@@ -1,7 +1,9 @@
 ﻿using System.Text;
 using Nexora.buildings;
+using Nexora.comp;
 using Nexora.network;
 using Nexora.ui.utils;
+using Nexora.utils.pooled;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -14,6 +16,10 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
 {
     private Vector2 scrollPosition = Vector2.zero;
     private string search = "";
+
+    private Action<List<Thing>> sortBy = l =>
+        l.SortBy(thing => thing.LabelCap);
+
     private List<Thing> filteredItems = [];
 
     private QuickSearchFilter filter = new();
@@ -42,6 +48,7 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
             ItemInterface.OnItemChanged += RefreshItemList;
         }
 
+        using var fontSize = Styles.FontSize(GameFont.Small);
         var netPanel = inRect.RightPart(0.2f);
         var itemList = inRect.LeftPart(0.8f);
         var searchRect = itemList.TopPartPixels(Text.LineHeight * 1.5f);
@@ -52,11 +59,49 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
         DrawNetPanel(netPanel.RightPartPixels(netPanel.width - 10f));
 
         using var _ = Styles.TextAnchor(TextAnchor.MiddleCenter);
+        var sortButton = searchRect.RightPartPixels(Text.CalcSize("1").x * 10).ContractedBy(5f);
+        searchRect.xMax -= sortButton.width + 10f;
+
+        DrawSortButton(sortButton);
         var newSearch = Widgets.TextField(searchRect.ContractedBy(5f), search);
         if (newSearch != search)
         {
             search = newSearch;
             OnSearch();
+        }
+
+        TooltipHandler.TipRegion(searchRect,
+            "Direct Search: Search by item name\nPrefix @: Search by mod name\nPrefix #: Search within item description");
+    }
+
+    private void DrawSortButton(Rect rect)
+    {
+        if (Widgets.ButtonText(rect, "SortBy"))
+        {
+            var options = new List<FloatMenuOption>
+            {
+                new("A-Z", () => { sortBy = list => list.SortBy(t => t.LabelCap); }),
+                new("Mass",
+                    () => { sortBy = list => list.SortBy(t => t.GetStatValue(StatDefOf.Mass) * t.stackCount); }),
+                new("Unit Mass",
+                    () => { sortBy = list => list.SortBy(t => t.GetStatValue(StatDefOf.Mass)); }),
+                new("Value",
+                    () => { sortBy = list => list.SortBy(t => t.GetStatValue(StatDefOf.MarketValue) * t.stackCount); }),
+                new("Unit Value", () => { sortBy = list => list.SortBy(t => t.GetStatValue(StatDefOf.MarketValue)); }),
+                new("Reverse", () =>
+                {
+                    var old = sortBy;
+                    sortBy = list =>
+                    {
+                        old(list);
+                        list.Reverse();
+                    };
+                }),
+            };
+            Find.WindowStack.Add(new FloatMenu(options)
+            {
+                onCloseCallback = RefreshItemList
+            });
         }
     }
 
@@ -75,13 +120,29 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
 
         listing.Gap(20f);
 
-        var sb = new StringBuilder();
-        sb.AppendFormat("workrate: {0} / {1}", network.UsedWorkrate, network.TotalWorkrate);
-        sb.AppendLine();
-        sb.AppendFormat("devices: {0} / {1}", network.DynWorkRates.Count, network.MaxDevices);
-        Widgets.TextArea(listing.GetRect(30f), sb.ToString(), true);
+        DrawTextLine($"workrate: {network.UsedWorkrate} / {network.TotalWorkrate} ops");
+        DrawTextLine($"devices: {network.DynWorkRates.Count} / {network.MaxDevices}");
+
+        using var comps = network.Storages.OfType<ItemStorage>().Select(s => s.Owner.CompDataFormat)
+            .OfType<CompDataFormatMassFormat>()
+            .ToPooledList();
+        DrawTextLine(
+            $"mass: {comps.Select(c => c.Mass(((Building_LocalStorage)c.parent).Storage!)).Sum():F2} / {comps.Select(c => c.Props.Value).Sum()} kg",
+            "This data only counts storage devices that use mass format.");
 
         listing.End();
+        return;
+
+        void DrawTextLine(string text, string? tooltip = null)
+        {
+            var inRect = listing.GetRect(Text.CalcHeight(text, listing.ColumnWidth));
+            if (tooltip != null)
+            {
+                TooltipHandler.TipRegion(inRect, tooltip);
+            }
+
+            Widgets.TextArea(inRect, text, true);
+        }
     }
 
     private void DrawItemList(Rect rect)
@@ -251,7 +312,7 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
             }
         }
 
-        filteredItems.SortBy(thing => TransferableUIUtility.DefaultListOrderPriority(thing.def));
+        sortBy(filteredItems);
     }
 
     private void OnSearch()

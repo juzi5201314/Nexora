@@ -7,6 +7,8 @@ public static class Styles
 {
     public static IDisposable TextAnchor(TextAnchor anchor) =>
         new Recover<TextAnchor>(Text.Anchor, anchor, textAnchor => Text.Anchor = textAnchor);
+    public static IDisposable FontSize(GameFont font) =>
+        new Recover<GameFont>(Text.Font, font, gameFont => Text.Font = gameFont);
 
     public static IDisposable GUIColor(Color color) =>
         new Recover<Color>(GUI.color, color, color0 => GUI.color = color0);
