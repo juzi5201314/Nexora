@@ -1,0 +1,15 @@
+<Analyzer>
+    <Nexora>
+        <Methods>
+            <li>Rimworld.FoodUtility:BestFoodSourceOnMap</li>
+            <li>Rimworld.StoreUtility:TryFindBestBetterStorageFor</li>
+            <li>Rimworld.WorkGiver_DoBill:TryFindBestIngredientsHelper</li>
+            <li>Verse.GenClosest:ClosestThingReachable</li>
+            <li>Verse.ThingWithComps:Tick</li>
+            <li>Verse.AI.Pawn_JobTracker:StartJob</li>
+        </Methods>
+        <NestedTypes>
+            <li>Verse.AI.Toils_Recipe</li>
+        </NestedTypes>
+    </Nexora>
+</Analyzer>

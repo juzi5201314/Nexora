@@ -18,8 +18,15 @@ public class Building_LocalStorage : Building, IThingHolder, IHaulSource
     public override void SpawnSetup(Map map, bool respawningAfterLoad)
     {
         base.SpawnSetup(map, respawningAfterLoad);
-        Network.Connect(Storage!);
         CompDataFormat = GetComp<CompDataFormat>() ?? new CompDataFormatUnlimited();
+        var power = GetComp<CompPowerTrader>();
+        if (power.PowerOn)
+        {
+            Network.Connect(Storage!);
+        }
+
+        power.powerStartedAction = () => Network.Connect(Storage!);
+        power.powerStoppedAction = () => Network.Disconnect(Storage!);
     }
 
     public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)

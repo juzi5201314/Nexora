@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Nexora.comp;
 using Nexora.network;
+using RimWorld;
 using Verse;
 
 namespace Nexora.buildings;
@@ -22,7 +23,15 @@ public class Building_CPU : Building
         }
 
         TotalWorkrate = WorkrateComp.Props.ops;
-        Network.Connect(this);
+        var power = GetComp<CompPowerTrader>();
+        if (power.PowerOn)
+        {
+            Network.Connect(this);
+        }
+
+        power.powerStartedAction = () => Network.Connect(this);
+        ;
+        power.powerStoppedAction = () => Network.Disconnect(this);
     }
 
     public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
