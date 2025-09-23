@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <RecipeDef>
+        <defName>DigitalMining</defName>
+        <workerClass>Nexora.RecipeWorker_DigitalMining</workerClass>
+        <jobString>正在使用算力从网络中挖取矿物</jobString>
+        <label>数字采矿</label>
+        <description>挖取加密货币。。呃，矿物！</description>
+        <ingredients/>
+        <recipeUsers>
+            <li>FabricationBench</li>
+        </recipeUsers>
+        <workAmount>240000</workAmount>
+        <products/>
+        <unfinishedThingDef/>
+        <skillRequirements>
+            <Mining>2147483647</Mining>
+        </skillRequirements>
+    </RecipeDef>
+</Defs>

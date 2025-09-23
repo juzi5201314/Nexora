@@ -119,6 +119,14 @@ public static class Recipe
                 }
             }
         }
+
+        if (recipeDef.Worker is RecipeWorker_DigitalMining)
+        {
+            foreach (var thing in MakeDigitalMiningProduct())
+            {
+                yield return thing;
+            }
+        }
     }
 
     private static Thing PostProcessProduct(
@@ -159,5 +167,33 @@ public static class Recipe
         if (product.def.Minifiable)
             product = (Thing)product.MakeMinified();
         return product;
+    }
+
+    private static List<ThingDef> MetallicStuffs = [];
+
+    private static IEnumerable<Thing> MakeDigitalMiningProduct()
+    {
+        if (MetallicStuffs.Empty())
+        {
+            MetallicStuffs = DefDatabase<ThingDef>.AllDefs.Where(def =>
+                def.stuffProps != null && def.stuffProps.categories.Contains(StuffCategoryDefOf.Metallic)).ToList();
+        }
+
+        const int targetValue = 1000;
+        var currentValue = 0f;
+        var products = new ThingOwner<Thing>();
+        while (currentValue < targetValue)
+        {
+            var thing = ThingMaker.MakeThing(MetallicStuffs.RandomElement());
+            products.TryAdd(thing, 1);
+            currentValue += thing.GetStatValue(StatDefOf.MarketValue);
+        }
+
+        for (var i = products.Count - 1; i >= 0; i--)
+        {
+            var item = products[i];
+            products.Remove(item);
+            yield return item;
+        }
     }
 }
