@@ -236,7 +236,16 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
 
     public int GetCountCanAccept(Thing item)
     {
-        return ExternalStorages.Sum(s => s.Accepts(item) ? 1 : 0) +
+        return ExternalStorages.Sum(s =>
+               {
+                   if (s.Accepts(item) && s.SpaceRemainingFor(item.def) > 0)
+                   {
+                       return s.slotGroup.HeldThings.Where(t => t.CanStackWith(item))
+                           .Sum(t => t.def.stackLimit - t.stackCount);
+                   }
+
+                   return 0;
+               }) +
                ExternalContainers.Sum(h => h.GetDirectlyHeldThings().GetCountCanAccept(item));
     }
 

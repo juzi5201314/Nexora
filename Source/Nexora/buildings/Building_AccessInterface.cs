@@ -71,8 +71,7 @@ public class Building_AccessInterface : Building, IHaulDestination, IThingHolder
 
     public bool Accepts(Thing t)
     {
-        return settings.AllowedToAccept(t) && Network.Storages.Select(storage => storage.GetCountCanAccept(t))
-            .Any(accepts => accepts > 0);
+        return settings.AllowedToAccept(t) && Network.GetCountCanAccept(t) > 0;
     }
 
     public override void ExposeData()
