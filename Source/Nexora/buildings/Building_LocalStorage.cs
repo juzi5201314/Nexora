@@ -98,7 +98,12 @@ public class Building_LocalStorage : Building, IThingHolder, IHaulSource
                 using var pooledList = Storage!.ToPooledList();
                 foreach (var thing in pooledList)
                 {
-                    Network.TryAddItem(thing);
+                    var canAccept = Network.GetCountCanAccept(thing);
+                    if (canAccept > 0)
+                    {
+                        var num = Math.Min(canAccept, thing.stackCount);
+                        Network.TryAddItem(thing.SplitOff(num));
+                    }
                 }
 
                 Network.Connect(Storage!);

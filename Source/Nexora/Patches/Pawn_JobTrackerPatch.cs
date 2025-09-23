@@ -56,10 +56,10 @@ public static class Pawn_JobTrackerPatch
             }
             else
             {
-                for (var idx = 0; idx < newJob.targetQueueB!.Count; idx++)
+                for (var idx = 0; idx < (newJob.targetQueueB?.Count ?? 0); idx++)
                 {
                     Log.Message(
-                        $"start mu job: {newJob}, {newJob.countQueue[idx]}, {newJob.targetQueueB[idx].Thing.LabelCap}");
+                        $"start mu job: {newJob}");
                     (newJob.targetQueueB[idx], newJob.countQueue[idx]) =
                         ProcessThing(newJob.targetQueueB[idx], newJob.countQueue[idx]);
                 }
@@ -71,7 +71,7 @@ public static class Pawn_JobTrackerPatch
         (LocalTargetInfo, int) ProcessThing(LocalTargetInfo target, int count)
         {
             var item = target.Thing;
-            if (network!.Managed(item))
+            if (item != null && network!.Managed(item))
             {
                 var num = Math.Min(item.stackCount, count == -1 ? item.stackCount : count);
                 var other = item.SplitOff(num);

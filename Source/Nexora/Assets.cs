@@ -14,6 +14,7 @@ public static class Assets
     public static readonly Texture2D Overclocking;
     public static readonly Texture2D Resume;
     public static readonly Texture2D Pause;
+    public static readonly Texture2D Pop;
 
     static Assets()
     {
@@ -26,5 +27,6 @@ public static class Assets
         Overclocking = holder.Get("UI/Overclocking");
         Resume = holder.Get("UI/Resume");
         Pause = holder.Get("UI/Pause");
+        Pop = holder.Get("UI/Pop");
     }
 }

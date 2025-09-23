@@ -139,8 +139,12 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
                 using var pooledList = GetExternalItems().ToPooledList();
                 foreach (var thing in pooledList)
                 {
-                    var num = Math.Min(Network.GetCountCanAccept(thing), thing.stackCount);
-                    Network.TryAddItem(thing.SplitOff(num));
+                    var canAccept = Network.GetCountCanAccept(thing);
+                    if (canAccept > 0)
+                    {
+                        var num = Math.Min(canAccept, thing.stackCount);
+                        Network.TryAddItem(thing.SplitOff(num));
+                    }
                 }
 
                 Network.Connect(this);
@@ -254,7 +258,7 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
 }
 
 // 一个空的ThingOwner，仅用于判断放置在地图格子上的Thing是否包含在ExternalStorage中
-public class EmptyThingOwner(Building_Storage storage) : ThingOwner
+public class EmptyThingOwner(Building_Storage storage) : ThingOwner(storage.Map)
 {
     internal Building_Storage Storage = storage;
 

@@ -45,6 +45,7 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
 
             RefreshItemList();
             Initialized = true;
+            resizeable = true;
             ItemInterface.OnItemChanged += RefreshItemList;
         }
 
@@ -201,6 +202,7 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
         rect.Gap();
 
         var size10 = Text.CalcSize("0123456789").x;
+        var popRect = rect.GetRight(rect.height).ContractedBy(3f);
         var markerValueRect = rect.GetRight(size10);
         var massRect = rect.GetRight(size10);
         var label = $"<b>{item.stackCount}</b> * {GenLabel.ThingLabel(item, 1)}";
@@ -213,6 +215,7 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
             Widgets.ThingIcon(iconRect, item);
         DrawMarketValue(markerValueRect, item);
         DrawMass(massRect, item);
+        DrawPopButton(popRect, item);
         Widgets.LabelEllipses(labelRect, label);
         if (Widgets.ButtonInvisible(labelRect))
         {
@@ -249,6 +252,32 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
         }
 
         TooltipHandler.TipRegion(rect, str.ToTaggedString());
+    }
+
+    private void DrawPopButton(Rect rect, Thing item)
+    {
+        if (Widgets.ButtonImage(rect, Assets.Pop))
+        {
+            var inter = ItemInterface.Network().GetClosestAccessInterface(item.PositionHeld);
+            if (inter == null)
+            {
+                Messages.Message("No reachable access interface found", MessageTypeDefOf.NeutralEvent);
+            }
+            else
+            {
+                GenDrop.TryDropSpawn(item.SplitOff(item.stackCount), inter.Position, inter.Map, ThingPlaceMode.Near,
+                    out _,
+                    (thing, _) =>
+                    {
+                        Close();
+                        CameraJumper.TryJump(thing);
+                        Find.Selector.ClearSelection();
+                        Find.Selector.Select(thing);
+                    });
+            }
+        }
+
+        TooltipHandler.TipRegion(rect, "Pop the item to the nearest access interface");
     }
 
     private static void DrawMarketValue(Rect rect, Thing item)
