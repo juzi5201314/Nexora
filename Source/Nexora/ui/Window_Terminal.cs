@@ -17,7 +17,7 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
     private Vector2 scrollPosition = Vector2.zero;
     private string search = "";
 
-    private Action<List<Thing>> sortBy = l =>
+    private static Action<List<Thing>> sortBy = l =>
         l.SortBy(thing => thing.LabelCap);
 
     private List<Thing> filteredItems = [];
@@ -46,6 +46,7 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
             RefreshItemList();
             Initialized = true;
             resizeable = true;
+            draggable = true;
             ItemInterface.OnItemChanged += RefreshItemList;
         }
 
