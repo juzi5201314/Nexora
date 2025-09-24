@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+    <AllowInput>Allow depositing items</AllowInput>
+    <AllowOutput>Allow withdrawing items</AllowOutput>
+    <Paused>Paused</Paused>
+    <Resume>Resume</Resume>
+    <Pause>Pause</Pause>
+    <Cancel>Cancel</Cancel>
+    <Priority>Priority</Priority>
+    <Capacity>Capacity</Capacity>
+    <Nex_LowPower>Insufficient computing power</Nex_LowPower>
+    <Nex_Workrate>Online computing power</Nex_Workrate>
+    <Nex_Devices>Online devices</Nex_Devices>
+    <Nex_WorkerOverclocked>
+        <![CDATA[Overclocked to <color=red>{0}</color> ops, current speed: <color=green>{1}</color> op/s. {2}GHz]]></Nex_WorkerOverclocked>
+    <Nex_NoIdleWorkrate>No idle computing power</Nex_NoIdleWorkrate>
+    <Nex_WorkLeft>Work remaining:</Nex_WorkLeft>
+    <Nex_Ingredients>Raw materials</Nex_Ingredients>
+    <Nex_NotLinkedWorkbench>Not linked to workbench</Nex_NotLinkedWorkbench>
+    <Nex_WaitForWork>Waiting for work</Nex_WaitForWork>
+    <Nex_SetPriority>Set priority</Nex_SetPriority>
+    <Nex_SetPriority.desc>Higher priority means items are deposited preferentially</Nex_SetPriority.desc>
+    <Nex_Overclocking>Overclocking</Nex_Overclocking>
+    <Nex_Overclocking.desc>Set the maximum overclocking level.\nWhen the network has idle computing power, it will attempt to consume 200% computing power to increase work speed by 50%
+    </Nex_Overclocking.desc>
+    <Nex_ProvidedWorkrate>Provide computing power</Nex_ProvidedWorkrate>
+    <Nex_ProvidedMaxDevices>Maximum devices</Nex_ProvidedMaxDevices>
+    <Nex_OpenTerminal>Open network terminal</Nex_OpenTerminal>
+    <Nex_TransferItems>Transfer items</Nex_TransferItems>
+    <Nex_TransferItems.desc>Transfer items in this storage container to other available containers</Nex_TransferItems.desc>
+    <Nex_AutoOrganize>Auto organize</Nex_AutoOrganize>
+    <Nex_AutoOrganize.desc>Automatically organize items in the network, filling from high priority downward.</Nex_AutoOrganize.desc>
+    <Nex_NetPanelMass.desc>This data source only includes storage devices using weight units. It does not include capacities of other storage devices.</Nex_NetPanelMass.desc>
+    <SearchDesc>Direct search: Search item names\nPrefix @: Search from the mod name the item belongs to. E.g.: "@core" \nPrefix #: Search from item descriptions
+    </SearchDesc>
+</LanguageData>

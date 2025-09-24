@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+    <DigitalMining.label>数字采矿</DigitalMining.label>
+    <DigitalMining.jobString>正在使用算力从网络中挖取矿物</DigitalMining.jobString>
+    <DigitalMining.description>挖取加密货币。。呃，矿物！\n完成后会随机产出价值500白银的金属矿物\n这个工作清单只能由自动工作机完成才有产出！</DigitalMining.description>
+</LanguageData>

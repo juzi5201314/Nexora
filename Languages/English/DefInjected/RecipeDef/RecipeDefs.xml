@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+    <DigitalMining.label>Digital Mining</DigitalMining.label>
+    <DigitalMining.jobString>Using computing power to mine minerals from the network</DigitalMining.jobString>
+    <DigitalMining.description>Mine cryptocurrency... er, minerals!\nUpon completion, it randomly produces metal minerals worth 500 silver\nThis job list only yields output when completed by an auto worker!</DigitalMining.description>
+</LanguageData>

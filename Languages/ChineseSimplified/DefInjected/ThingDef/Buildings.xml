@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+    <Nexora_AccessInterface.label>访问接口</Nexora_AccessInterface.label>
+    <Nexora_AccessInterface.description>此接口是Nexora存储网络与现实的交互点。用于取出/存入物品</Nexora_AccessInterface.description>
+
+    <Nexora_AutoWorker.label>自动工作机</Nexora_AutoWorker.label>
+    <Nexora_AutoWorker.description>一个可以自动完成工作的机器。必须放置在工作台的操作点上。并且只能完成有产物的工作清单。 \n这是一个没有灵魂的机器，所以难以产出高雅的艺术作品。(实际上产物品质会随着超频等级提高而提高)</Nexora_AutoWorker.description>
+
+    <Nexora_ExternalStorageConnector.label>外部存储接口</Nexora_ExternalStorageConnector.label>
+    <Nexora_ExternalStorageConnector.description>将原版的存储建筑(如物品架)连接到Nexora存储网络中。此功能可能有bug，建议尽量使用Nexora的虚拟存储器</Nexora_ExternalStorageConnector.description>
+
+    <!-- CPU Buildings -->
+    <Nexora_CPU01a.label>古董cpu</Nexora_CPU01a.label>
+    <Nexora_CPU01a.description>一个从垃圾堆翻出来的cpu。只有相当于1/4个人类的工作效率。只能支持1台设备。</Nexora_CPU01a.description>
+
+    <Nexora_CPU02a.label>被淘汰很久的cpu</Nexora_CPU02a.label>
+    <Nexora_CPU02a.description>在杂物房中翻出来一个很多年前的cpu。只有相当于0.83个人类的工作效率。支持3台设备。</Nexora_CPU02a.description>
+
+    <Nexora_CPU03a.label>低端cpu</Nexora_CPU03a.label>
+    <Nexora_CPU03a.description>性能一般但是物美价廉。拥有高达256 ops算力。支持7台设备。</Nexora_CPU03a.description>
+
+    <Nexora_CPU04a.label>旗舰cpu</Nexora_CPU04a.label>
+    <Nexora_CPU04a.description>FxxkU公司出品的旗舰级cpu。拥有高达1024 ops算力。支持10台设备。</Nexora_CPU04a.description>
+
+    <Nexora_CPU05a.label>服务器cpu</Nexora_CPU05a.label>
+    <Nexora_CPU05a.description>用于数据中心的服务器cpu。拥有高达4096 ops算力。支持15台设备。</Nexora_CPU05a.description>
+
+    <Nexora_CPU06a.label>超级计算机</Nexora_CPU06a.label>
+    <Nexora_CPU06a.description>一台超级计算机。拥有高达16384 ops算力。支持15台设备。</Nexora_CPU06a.description>
+
+    <!-- Local Storage Buildings -->
+    <Nexora_LocalStorage2x2a.label>Storage drive 4</Nexora_LocalStorage2x2a.label>
+    <Nexora_LocalStorage2x2a.description>一个硬盘驱动器，上面插着4块硬盘，可以存储800kg的物品</Nexora_LocalStorage2x2a.description>
+
+    <Nexora_LocalStorage2x4a.label>Storage drive 8</Nexora_LocalStorage2x4a.label>
+    <Nexora_LocalStorage2x4a.description>一个硬盘驱动器，上面插着8块硬盘，可以存储1300kg的物品</Nexora_LocalStorage2x4a.description>
+
+    <Nexora_LocalStorageBlue.label>Simple Integrated Storage</Nexora_LocalStorageBlue.label>
+    <Nexora_LocalStorageBlue.description>一个高度集成的存储设备，可以存储5000kg的物品</Nexora_LocalStorageBlue.description>
+
+    <Nexora_LocalStorageGreen.label>Good Integrated Storage</Nexora_LocalStorageGreen.label>
+    <Nexora_LocalStorageGreen.description>一个高度集成的存储设备，可以存储10000kg的物品</Nexora_LocalStorageGreen.description>
+
+    <Nexora_LocalStorageYellow.label>Exquisite Integrated Storage</Nexora_LocalStorageYellow.label>
+    <Nexora_LocalStorageYellow.description>一个高度集成的存储设备，可以存储30000kg的物品</Nexora_LocalStorageYellow.description>
+
+    <Nexora_LocalStorageRed.label>Epic Integrated Storage</Nexora_LocalStorageRed.label>
+    <Nexora_LocalStorageRed.description>一个高度集成的存储设备，可以存储100000kg的物品</Nexora_LocalStorageRed.description>
+
+    <Nexora_LocalStoragePurple.label>Black Hole Integrated Storage</Nexora_LocalStoragePurple.label>
+    <Nexora_LocalStoragePurple.description>这个存储器中有一个微型黑洞来压缩物品，可以存储NaN个物品</Nexora_LocalStoragePurple.description>
+
+</LanguageData>
