@@ -63,7 +63,17 @@ public class Building_LocalStorage : Building, IThingHolder, IHaulSource
     public override void PostSwapMap()
     {
         base.PostSwapMap();
-        Network.Connect(Storage!);
+        var power = GetComp<CompPowerTrader>();
+        if (power != null)
+        {
+            if (power.PowerOn)
+            {
+                Network.Connect(Storage!);
+            }
+
+            power.powerStartedAction = () => Network.Connect(Storage!);
+            power.powerStoppedAction = () => Network.Disconnect(Storage!);
+        }
     }
 
     public override void ExposeData()
