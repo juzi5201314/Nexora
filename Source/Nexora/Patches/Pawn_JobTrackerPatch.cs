@@ -42,24 +42,30 @@ public static class Pawn_JobTrackerPatch
 
         if (isHaulJobType)
         {
+#if DEBUG
             Log.Message(
                 $"start haul job: {newJob}, {newJob.count}, {newJob.targetA.Thing?.LabelCap ?? ""}");
+#endif
             (newJob.targetA, newJob.count) = ProcessThing(newJob.targetA, newJob.count);
         }
         else
         {
             if (newJob.targetQueueB.NullOrEmpty() || newJob.countQueue.NullOrEmpty())
             {
+#if DEBUG
                 Log.Message(
                     $"start bill job: {newJob}, {newJob.count}, {newJob.targetA.IsValid}, {newJob.targetB.Thing?.LabelCap ?? ""}");
+#endif
                 (newJob.targetB, newJob.count) = ProcessThing(newJob.targetB, newJob.count);
             }
             else
             {
                 for (var idx = 0; idx < (newJob.targetQueueB?.Count ?? 0); idx++)
                 {
+#if DEBUG
                     Log.Message(
                         $"start mu job: {newJob}");
+#endif
                     (newJob.targetQueueB[idx], newJob.countQueue[idx]) =
                         ProcessThing(newJob.targetQueueB[idx], newJob.countQueue[idx]);
                 }
