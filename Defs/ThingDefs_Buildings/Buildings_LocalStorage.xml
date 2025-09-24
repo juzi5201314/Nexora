@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-    <ThingDef ParentName="BuildingBase">
-        <defName>Nexora_LocalStorage</defName>
+    <ThingDef Name="LocalStorageBase" ParentName="BuildingBase" Abstract="True">
         <thingClass>Nexora.buildings.Building_LocalStorage</thingClass>
-        <label>Dense Storage</label>
-        <description>一个可以插多块存储设备的硬盘驱动器</description>
-        <graphicData>
-            <texPath>Things/LocalStorage2x4</texPath>
-            <graphicClass>Graphic_Single</graphicClass>
-        </graphicData>
         <designationCategory>Nexora</designationCategory>
         <rotatable>true</rotatable>
         <altitudeLayer>Building</altitudeLayer>
@@ -39,22 +32,216 @@
             </relatedBuildCommands>
         </building>
         <tickerType>Long</tickerType>
-        
+
         <comps>
             <li Class="CompProperties_Glower">
-                <glowRadius>2</glowRadius>
+                <glowRadius>1</glowRadius>
                 <glowColor>(125, 245, 237, 0)</glowColor>
-            </li>
-
-            <li Class="CompProperties_Power">
-                <compClass>CompPowerTrader</compClass>
-                <basePowerConsumption>50</basePowerConsumption>
-            </li>
-            <li Class="Nexora.comp.CompProperties_DataFormat">
-                <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
-                <value>1000</value>
             </li>
         </comps>
     </ThingDef>
 
+    <ThingDef ParentName="LocalStorageBase">
+        <defName>Nexora_LocalStorage2x2a</defName>
+        <label>Storage drive 4</label>
+        <description>一个硬盘驱动器，上面插着4块硬盘，可以存储800kg的物品</description>
+        <graphicData>
+            <texPath>Things/LocalStorage2x2</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <statBases>
+            <MaxHitPoints>1000</MaxHitPoints>
+            <WorkToBuild>600</WorkToBuild>
+            <Mass>8</Mass>
+        </statBases>
+        <costList>
+            <Steel>200</Steel>
+            <ComponentIndustrial>2</ComponentIndustrial>
+        </costList>
+        <comps>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>120</basePowerConsumption>
+            </li>
+            <li Class="Nexora.comp.CompProperties_DataFormat">
+                <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
+                <value>800</value>
+            </li>
+        </comps>
+    </ThingDef>
+
+    <ThingDef ParentName="LocalStorageBase">
+        <defName>Nexora_LocalStorage2x4a</defName>
+        <label>Storage drive 8</label>
+        <description>一个硬盘驱动器，上面插着8块硬盘，可以存储1300kg的物品</description>
+        <graphicData>
+            <texPath>Things/LocalStorage2x4</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <statBases>
+            <MaxHitPoints>2000</MaxHitPoints>
+            <WorkToBuild>1200</WorkToBuild>
+            <Mass>16</Mass>
+        </statBases>
+        <costList>
+            <Steel>500</Steel>
+            <ComponentIndustrial>4</ComponentIndustrial>
+        </costList>
+        <comps>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>240</basePowerConsumption>
+            </li>
+            <li Class="Nexora.comp.CompProperties_DataFormat">
+                <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
+                <value>1300</value>
+            </li>
+        </comps>
+    </ThingDef>
+
+    <ThingDef ParentName="LocalStorageBase">
+        <defName>Nexora_LocalStorageBlue</defName>
+        <label>Simple Integrated Storage</label>
+        <description>一个高度集成的存储设备，可以存储5000kg的物品</description>
+        <graphicData>
+            <texPath>Things/LocalStorageBlue</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <statBases>
+            <MaxHitPoints>5000</MaxHitPoints>
+            <WorkToBuild>1500</WorkToBuild>
+            <Mass>10</Mass>
+        </statBases>
+        <costList>
+            <Steel>2000</Steel>
+            <Plasteel>300</Plasteel>
+            <ComponentSpacer>2</ComponentSpacer>
+        </costList>
+        <comps>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>240</basePowerConsumption>
+            </li>
+            <li Class="Nexora.comp.CompProperties_DataFormat">
+                <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
+                <value>5000</value>
+            </li>
+        </comps>
+    </ThingDef>
+
+    <ThingDef ParentName="LocalStorageBase">
+        <defName>Nexora_LocalStorageGreen</defName>
+        <label>Good Integrated Storage</label>
+        <description>一个高度集成的存储设备，可以存储10000kg的物品</description>
+        <graphicData>
+            <texPath>Things/LocalStorageGreen</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <statBases>
+            <MaxHitPoints>10000</MaxHitPoints>
+            <WorkToBuild>1500</WorkToBuild>
+            <Mass>10</Mass>
+        </statBases>
+        <costList>
+            <Steel>5000</Steel>
+            <Plasteel>700</Plasteel>
+            <ComponentSpacer>5</ComponentSpacer>
+        </costList>
+        <comps>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>240</basePowerConsumption>
+            </li>
+            <li Class="Nexora.comp.CompProperties_DataFormat">
+                <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
+                <value>10000</value>
+            </li>
+        </comps>
+    </ThingDef>
+
+    <ThingDef ParentName="LocalStorageBase">
+        <defName>Nexora_LocalStorageYellow</defName>
+        <label>Exquisite Integrated Storage</label>
+        <description>一个高度集成的存储设备，可以存储30000kg的物品</description>
+        <graphicData>
+            <texPath>Things/LocalStorageYellow</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <statBases>
+            <MaxHitPoints>50000</MaxHitPoints>
+            <WorkToBuild>1500</WorkToBuild>
+            <Mass>10</Mass>
+        </statBases>
+        <costList>
+            <Steel>10000</Steel>
+            <Plasteel>2000</Plasteel>
+            <ComponentSpacer>7</ComponentSpacer>
+        </costList>
+        <comps>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>240</basePowerConsumption>
+            </li>
+            <li Class="Nexora.comp.CompProperties_DataFormat">
+                <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
+                <value>30000</value>
+            </li>
+        </comps>
+    </ThingDef>
+
+    <ThingDef ParentName="LocalStorageBase">
+        <defName>Nexora_LocalStorageRed</defName>
+        <label>Epic Integrated Storage</label>
+        <description>一个高度集成的存储设备，可以存储100000kg的物品</description>
+        <graphicData>
+            <texPath>Things/LocalStorageRed</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <statBases>
+            <MaxHitPoints>100000</MaxHitPoints>
+            <WorkToBuild>1500</WorkToBuild>
+            <Mass>10</Mass>
+        </statBases>
+        <costList>
+            <Steel>50000</Steel>
+            <Plasteel>5000</Plasteel>
+            <ComponentSpacer>10</ComponentSpacer>
+        </costList>
+        <comps>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>240</basePowerConsumption>
+            </li>
+            <li Class="Nexora.comp.CompProperties_DataFormat">
+                <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
+                <value>100000</value>
+            </li>
+        </comps>
+    </ThingDef>
+
+    <ThingDef ParentName="LocalStorageBase">
+        <defName>Nexora_LocalStoragePurple</defName>
+        <label>Black Hole Integrated Storage</label>
+        <description>这个存储器中有一个微型黑洞来压缩物品，可以存储NaN个物品</description>
+        <graphicData>
+            <texPath>Things/LocalStoragePurple</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <statBases>
+            <MaxHitPoints>16777216</MaxHitPoints>
+            <WorkToBuild>1500</WorkToBuild>
+            <Mass>0</Mass>
+        </statBases>
+        <costList>
+            <Steel>1000000</Steel>
+            <Plasteel>100000</Plasteel>
+            <Gold>100000</Gold>
+            <Uranium>100000</Uranium>
+        </costList>
+        <comps>
+            <li Class="Nexora.comp.CompProperties_DataFormat">
+                <compClass>Nexora.comp.CompDataFormatUnlimited</compClass>
+            </li>
+        </comps>
+    </ThingDef>
 </Defs>

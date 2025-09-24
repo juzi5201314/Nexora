@@ -27,30 +27,32 @@
             </relatedBuildCommands>
         </building>
         <tickerType>Normal</tickerType>
+
+        <comps>
+            <li Class="CompProperties_Glower">
+                <glowRadius>1</glowRadius>
+                <glowColor>(255, 255, 255, 0)</glowColor>
+            </li>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>120</basePowerConsumption>
+            </li>
+        </comps>
     </ThingDef>
 
     <ThingDef ParentName="CPUBase">
         <defName>Nexora_CPU01a</defName>
-        <label>CPU 01</label>
-        <description>A cpu</description>
+        <label>古董cpu</label>
+        <description>一个从垃圾堆翻出来的cpu。只有相当于1/4个人类的工作效率。只能支持1台设备。</description>
         <graphicData>
             <texPath>Things/CPU01</texPath>
             <graphicClass>Graphic_Single</graphicClass>
         </graphicData>
         <costList>
-            <Steel>100</Steel>
-            <ComponentIndustrial>2</ComponentIndustrial>
+            <Silver>300</Silver>
+            <ComponentIndustrial>1</ComponentIndustrial>
         </costList>
-
         <comps>
-            <li Class="CompProperties_Glower">
-                <glowRadius>1</glowRadius>
-                <glowColor>(255, 255, 0, 0)</glowColor>
-            </li>
-            <li Class="CompProperties_Power">
-                <compClass>CompPowerTrader</compClass>
-                <basePowerConsumption>100</basePowerConsumption>
-            </li>
             <li Class="Nexora.comp.CompProperties_Workrate">
                 <ops>15</ops>
                 <maxDevices>1</maxDevices>
@@ -60,55 +62,39 @@
 
     <ThingDef ParentName="CPUBase">
         <defName>Nexora_CPU02a</defName>
-        <label>CPU 02</label>
-        <description>A cpu</description>
+        <label>被淘汰很久的cpu</label>
+        <description>在杂物房中翻出来一个很多年前的cpu。只有相当于0.83个人类的工作效率。支持3台设备。</description>
         <graphicData>
             <texPath>Things/CPU02</texPath>
             <graphicClass>Graphic_Single</graphicClass>
         </graphicData>
         <costList>
-            <Steel>100</Steel>
-            <ComponentIndustrial>2</ComponentIndustrial>
+            <Silver>2000</Silver>
+            <ComponentIndustrial>3</ComponentIndustrial>
         </costList>
 
         <comps>
-            <li Class="CompProperties_Glower">
-                <glowRadius>1</glowRadius>
-                <glowColor>(0, 255, 255, 0)</glowColor>
-            </li>
-            <li Class="CompProperties_Power">
-                <compClass>CompPowerTrader</compClass>
-                <basePowerConsumption>300</basePowerConsumption>
-            </li>
             <li Class="Nexora.comp.CompProperties_Workrate">
                 <ops>50</ops>
                 <maxDevices>3</maxDevices>
             </li>
         </comps>
     </ThingDef>
-    
+
     <ThingDef ParentName="CPUBase">
         <defName>Nexora_CPU03a</defName>
-        <label>CPU 03</label>
-        <description>A cpu</description>
+        <label>低端cpu</label>
+        <description>性能一般但是物美价廉。拥有高达256 ops算力。支持7台设备。</description>
         <graphicData>
             <texPath>Things/CPU03</texPath>
             <graphicClass>Graphic_Single</graphicClass>
         </graphicData>
         <costList>
-            <Steel>100</Steel>
-            <ComponentIndustrial>2</ComponentIndustrial>
+            <Silver>6000</Silver>
+            <ComponentIndustrial>5</ComponentIndustrial>
         </costList>
 
         <comps>
-            <li Class="CompProperties_Glower">
-                <glowRadius>1</glowRadius>
-                <glowColor>(0, 255, 255, 0)</glowColor>
-            </li>
-            <li Class="CompProperties_Power">
-                <compClass>CompPowerTrader</compClass>
-                <basePowerConsumption>300</basePowerConsumption>
-            </li>
             <li Class="Nexora.comp.CompProperties_Workrate">
                 <ops>256</ops>
                 <maxDevices>7</maxDevices>
@@ -118,26 +104,18 @@
 
     <ThingDef ParentName="CPUBase">
         <defName>Nexora_CPU04a</defName>
-        <label>CPU 04</label>
-        <description>A cpu</description>
+        <label>旗舰cpu</label>
+        <description>FxxkU公司出品的旗舰级cpu。拥有高达1024 ops算力。支持10台设备。</description>
         <graphicData>
             <texPath>Things/CPU04</texPath>
             <graphicClass>Graphic_Single</graphicClass>
         </graphicData>
         <costList>
-            <Steel>100</Steel>
-            <ComponentIndustrial>2</ComponentIndustrial>
+            <Silver>60000</Silver>
+            <ComponentSpacer>1</ComponentSpacer>
         </costList>
 
         <comps>
-            <li Class="CompProperties_Glower">
-                <glowRadius>1</glowRadius>
-                <glowColor>(0, 255, 255, 0)</glowColor>
-            </li>
-            <li Class="CompProperties_Power">
-                <compClass>CompPowerTrader</compClass>
-                <basePowerConsumption>300</basePowerConsumption>
-            </li>
             <li Class="Nexora.comp.CompProperties_Workrate">
                 <ops>1024</ops>
                 <maxDevices>10</maxDevices>
@@ -147,26 +125,18 @@
 
     <ThingDef ParentName="CPUBase">
         <defName>Nexora_CPU05a</defName>
-        <label>CPU 05</label>
-        <description>A cpu</description>
+        <label>服务器cpu</label>
+        <description>用于数据中心的服务器cpu。拥有高达4096 ops算力。支持15台设备。</description>
         <graphicData>
             <texPath>Things/CPU05</texPath>
             <graphicClass>Graphic_Single</graphicClass>
         </graphicData>
         <costList>
-            <Steel>100</Steel>
-            <ComponentIndustrial>2</ComponentIndustrial>
+            <Silver>300000</Silver>
+            <ComponentSpacer>3</ComponentSpacer>
         </costList>
 
         <comps>
-            <li Class="CompProperties_Glower">
-                <glowRadius>1</glowRadius>
-                <glowColor>(0, 255, 255, 0)</glowColor>
-            </li>
-            <li Class="CompProperties_Power">
-                <compClass>CompPowerTrader</compClass>
-                <basePowerConsumption>300</basePowerConsumption>
-            </li>
             <li Class="Nexora.comp.CompProperties_Workrate">
                 <ops>4096</ops>
                 <maxDevices>15</maxDevices>
@@ -176,26 +146,18 @@
 
     <ThingDef ParentName="CPUBase">
         <defName>Nexora_CPU06a</defName>
-        <label>CPU 06</label>
-        <description>A cpu</description>
+        <label>超级计算机</label>
+        <description>一台超级计算机。拥有高达16384 ops算力。支持15台设备。</description>
         <graphicData>
             <texPath>Things/CPU06</texPath>
             <graphicClass>Graphic_Single</graphicClass>
         </graphicData>
         <costList>
-            <Steel>100</Steel>
-            <ComponentIndustrial>2</ComponentIndustrial>
+            <Silver>1000000</Silver>
+            <ComponentSpacer>5</ComponentSpacer>
         </costList>
 
         <comps>
-            <li Class="CompProperties_Glower">
-                <glowRadius>1</glowRadius>
-                <glowColor>(0, 255, 255, 0)</glowColor>
-            </li>
-            <li Class="CompProperties_Power">
-                <compClass>CompPowerTrader</compClass>
-                <basePowerConsumption>300</basePowerConsumption>
-            </li>
             <li Class="Nexora.comp.CompProperties_Workrate">
                 <ops>16384</ops>
                 <maxDevices>15</maxDevices>

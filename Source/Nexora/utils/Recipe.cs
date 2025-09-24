@@ -179,7 +179,7 @@ public static class Recipe
                 def.stuffProps != null && def.stuffProps.categories.Contains(StuffCategoryDefOf.Metallic)).ToList();
         }
 
-        const int targetValue = 1000;
+        const int targetValue = 500;
         var currentValue = 0f;
         var products = new ThingOwner<Thing>();
         while (currentValue < targetValue)

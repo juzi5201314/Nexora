@@ -37,7 +37,6 @@
         </costList>
         <building>
             <relatedBuildCommands>
-                <li>Nexora_LocalStorage</li>
                 <li>Nexora_ExternalStorageConnector</li>
             </relatedBuildCommands>
             <maxItemsInCell>2147483647</maxItemsInCell>

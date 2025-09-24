@@ -20,13 +20,16 @@ public class Building_LocalStorage : Building, IThingHolder, IHaulSource
         base.SpawnSetup(map, respawningAfterLoad);
         CompDataFormat = GetComp<CompDataFormat>() ?? new CompDataFormatUnlimited();
         var power = GetComp<CompPowerTrader>();
-        if (power.PowerOn)
+        if (power != null)
         {
-            Network.Connect(Storage!);
-        }
+            if (power.PowerOn)
+            {
+                Network.Connect(Storage!);
+            }
 
-        power.powerStartedAction = () => Network.Connect(Storage!);
-        power.powerStoppedAction = () => Network.Disconnect(Storage!);
+            power.powerStartedAction = () => Network.Connect(Storage!);
+            power.powerStoppedAction = () => Network.Disconnect(Storage!);
+        }
     }
 
     public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
@@ -155,14 +158,13 @@ public class Building_LocalStorage : Building, IThingHolder, IHaulSource
     public override string GetInspectString()
     {
         var s = new StringBuilder(base.GetInspectString());
-        s.AppendLine();
-        s.AppendLine($"{"Priority".Translate()}: {Storage!.Priority()}");
+        s.AppendInNewLine($"{"Priority".Translate()}: {Storage!.Priority()}");
         foreach (var s1 in CompDataFormat.GetExtraInspectString(Storage!))
         {
-            s.AppendLine(s1);
+            s.AppendInNewLine(s1);
         }
 
-        return s.ToString().TrimEnd();
+        return s.ToString();
     }
 
     // source
