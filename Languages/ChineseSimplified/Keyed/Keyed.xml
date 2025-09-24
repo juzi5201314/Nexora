@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+    <AllowInput>允许存入物品</AllowInput>
+    <AllowOutput>允许取出物品</AllowOutput>
+    <Paused>暂停中</Paused>
+    <Resume>恢复</Resume>
+    <Pause>暂停</Pause>
+    <Cancel>取消</Cancel>
+    <Priority>优先级</Priority>
+    <Capacity>容量</Capacity>
+    <Nex_LowPower>算力不足</Nex_LowPower>
+    <Nex_Workrate>在线算力</Nex_Workrate>
+    <Nex_Devices>在线设备</Nex_Devices>
+    <Nex_WorkerOverclocked>
+        <![CDATA[超频到<color=red>{0}</color> ops, 当前速度: <color=green>{1}</color> op/s. {2}GHz]]></Nex_WorkerOverclocked>
+    <Nex_NoIdleWorkrate>没有空闲算力</Nex_NoIdleWorkrate>
+    <Nex_WorkLeft>工作剩余</Nex_WorkLeft>
+    <Nex_Ingredients>原材料</Nex_Ingredients>
+    <Nex_NotLinkedWorkbench>没有链接到工作台</Nex_NotLinkedWorkbench>
+    <Nex_WaitForWork>等待工作</Nex_WaitForWork>
+    <Nex_SetPriority>设置优先级</Nex_SetPriority>
+    <Nex_SetPriority.desc>优先级越高，优先存入物品</Nex_SetPriority.desc>
+    <Nex_Overclocking>超频</Nex_Overclocking>
+    <Nex_Overclocking.desc>设置最大超频等级。\n当网络有空闲算力时，会尝试消耗200%的算力将工作速度提升50%
+    </Nex_Overclocking.desc>
+    <Nex_ProvidedWorkrate>提供算力</Nex_ProvidedWorkrate>
+    <Nex_ProvidedMaxDevices>最大设备</Nex_ProvidedMaxDevices>
+    <Nex_OpenTerminal>打开网络终端</Nex_OpenTerminal>
+    <Nex_TransferItems>转移物品</Nex_TransferItems>
+    <Nex_TransferItems.desc>将此存储容器内的物品转移到其他空余容器</Nex_TransferItems.desc>
+    <Nex_AutoOrganize>自动整理</Nex_AutoOrganize>
+    <Nex_AutoOrganize.desc>自动整理网络中的物品，将物品从高优先级逐渐向下填充。</Nex_AutoOrganize.desc>
+    <Nex_NetPanelMass.desc>此数据源仅为使用重量单位的存储设备。不包括其他存储设备的容量。</Nex_NetPanelMass.desc>
+    <SearchDesc>直接搜索: 搜索物品名字\n前缀@: 从物品所属mod名字中搜索. 如: "@core" \n前缀#: 从物品描述中搜索
+    </SearchDesc>
+</LanguageData>

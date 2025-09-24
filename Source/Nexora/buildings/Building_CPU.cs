@@ -44,8 +44,8 @@ public class Building_CPU : Building
     public override string GetInspectString()
     {
         var sb = new StringBuilder(base.GetInspectString());
-        sb.AppendInNewLine($"Provided workrate: {WorkrateComp.Props.ops} ops");
-        sb.AppendInNewLine($"Provided maxDevices: {WorkrateComp.Props.maxDevices} ops");
+        sb.AppendInNewLine($"{"Nex_ProvidedWorkrate".Translate()}: {WorkrateComp.Props.ops} ops");
+        sb.AppendInNewLine($"{"Nex_ProvidedMaxDevices".Translate()}: {WorkrateComp.Props.maxDevices} ops");
         return sb.ToString();
     }
 }

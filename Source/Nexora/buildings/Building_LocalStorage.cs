@@ -80,15 +80,15 @@ public class Building_LocalStorage : Building, IThingHolder, IHaulSource
     {
         yield return new Command_Action
         {
-            defaultLabel = "Open Terminal".Translate(),
+            defaultLabel = "Nex_OpenTerminal".Translate(),
             icon = Assets.Terminal,
             hotKey = DefDatabase<KeyBindingDef>.GetNamed("Nexora_HotKey_N"),
             action = () => { Find.WindowStack.Add(new Window_Terminal(Storage!)); }
         };
         yield return new Command_Action
         {
-            defaultLabel = "Transfer Items".Translate(),
-            defaultDesc = "Transfer items to other storage drives",
+            defaultLabel = "Nex_TransferItems".Translate(),
+            defaultDesc = "Nex_TransferItems.desc".Translate(),
             icon = Assets.MoveItem,
             action = () =>
             {
@@ -114,7 +114,7 @@ public class Building_LocalStorage : Building, IThingHolder, IHaulSource
         };
         yield return new Command_Settle()
         {
-            defaultLabel = "Set Priority".Translate(),
+            defaultLabel = "Nex_SetPriority".Translate(),
             icon = Assets.Priority,
             action = () =>
             {

@@ -110,14 +110,15 @@ public class Building_AutoWorker : Building
         {
             if (dynWorkRate != null)
             {
+                sb.AppendLine();
                 if (paused)
                 {
-                    sb.Append("<color=yellow>Paused</color>");
+                    sb.AppendFormat("<color=yellow>{0}</color>", "Paused".Translate());
                 }
                 else
                 {
                     sb.AppendLine(WorkingStatusStr);
-                    sb.AppendFormat("{0}: ", "workrate".Translate());
+                    sb.AppendFormat("{0}: ", "WorkSpeed".Translate());
                     if (overclocking == 0)
                     {
                         sb.AppendFormat("<color={1}>{0}</color> op/s", dynWorkRate.Value,
@@ -126,42 +127,39 @@ public class Building_AutoWorker : Building
                     else
                     {
                         sb.AppendFormat(
-                            "Overclocked to <color=red>{0}</color> ops, speed: <color=green>{1}</color> op/s. {2}GHz",
-                            dynWorkRate.Value,
-                            WorkSpeedByOc(overclocking),
-                            overclocking);
+                            "Nex_WorkerOverclocked".Translate(dynWorkRate.Value, WorkSpeedByOc(overclocking), overclocking)
+                            //"Overclocked to <color=red>{0}</color> ops, speed: <color=green>{1}</color> op/s. {2}GHz",
+                        );
                     }
 
 
                     if (dynWorkRate.Low)
                     {
-                        sb.Append(" (low power)");
+                        sb.AppendFormat(" ({0})", "Nex_LowPower".Translate());
                     }
                 }
-
-                sb.AppendLine();
             }
             else
             {
-                sb.AppendLine("no idle workrate");
+                sb.AppendInNewLine("Nex_NoIdleWorkrate".Translate());
             }
 
-            sb.AppendLine($"Work left: {workLeft} / {workTotal} (x{speedFactor:P2})");
-            sb.AppendLine($"Ingredients: {ingredients.Select(t => t.LabelCap).Join()}");
+            sb.AppendInNewLine($"{"Nex_WorkLeft".Translate()}: {workLeft} / {workTotal} (x{speedFactor:P2})");
+            sb.AppendInNewLine($"{"Nex_Ingredients".Translate()}: {ingredients.Select(t => t.LabelCap).Join()}");
         }
         else
         {
             if (billGiver == null)
             {
-                sb.AppendLine("not link to workbench");
+                sb.AppendLine("Nex_NotLinkedWorkbench".Translate());
             }
             else
             {
-                sb.AppendLine("wait for work");
+                sb.AppendLine("Nex_WaitForWork".Translate());
             }
         }
 
-        return sb.ToString().TrimEnd();
+        return sb.ToString();
     }
 
     public override IEnumerable<Gizmo> GetGizmos()
@@ -170,7 +168,8 @@ public class Building_AutoWorker : Building
             yield return gizmo;
         yield return new Command_Settle()
         {
-            defaultLabel = "Set Priority".Translate(),
+            defaultLabel = "Nex_SetPriority".Translate(),
+            defaultDesc = "Nex_SetPriority.desc".Translate(),
             icon = Assets.Priority,
             action = () =>
             {
@@ -183,9 +182,7 @@ public class Building_AutoWorker : Building
                         priority = value;
                         if (dynWorkRate != null)
                         {
-                            Log.Message($"{dynWorkRate.Value}");
                             dynWorkRate = Network.ChangeProperty(dynWorkRate, value);
-                            Log.Message($"{dynWorkRate}");
                         }
                     },
                     priority
@@ -194,7 +191,8 @@ public class Building_AutoWorker : Building
         };
         yield return new Command_Settle()
         {
-            defaultLabel = "Overclocking".Translate(),
+            defaultLabel = "Nex_Overclocking".Translate(),
+            defaultDesc = "Nex_Overclocking.desc".Translate(),
             icon = Assets.Overclocking,
             action = () =>
             {

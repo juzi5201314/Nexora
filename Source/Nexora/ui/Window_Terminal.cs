@@ -114,22 +114,25 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
         listing.Begin(rect);
         listing.Gap(20f);
 
-        if (listing.ButtonText("Auto organize"))
+        var autoOrganizeRect = listing.GetRect(30);
+        if (Widgets.ButtonText(autoOrganizeRect, "Nex_AutoOrganize".Translate()))
         {
             network.AutoOrganize();
         }
 
+        TooltipHandler.TipRegion(autoOrganizeRect, "Nex_AutoOrganize.desc".Translate());
+
         listing.Gap(20f);
 
-        DrawTextLine($"workrate: {network.UsedWorkrate} / {network.TotalWorkrate} ops");
-        DrawTextLine($"devices: {network.DynWorkRates.Count} / {network.MaxDevices}");
+        DrawTextLine($"{"Nex_Workrate".Translate()}: {network.UsedWorkrate} / {network.TotalWorkrate} ops");
+        DrawTextLine($"{"Nex_Devices".Translate()}: {network.DynWorkRates.Count} / {network.MaxDevices}");
 
         using var comps = network.Storages.OfType<ItemStorage>().Select(s => s.Owner.CompDataFormat)
             .OfType<CompDataFormatMassFormat>()
             .ToPooledList();
         DrawTextLine(
-            $"mass: {comps.Select(c => c.Mass(((Building_LocalStorage)c.parent).Storage!)).Sum():F2} / {comps.Select(c => c.Props.Value).Sum()} kg",
-            "This data only counts storage devices that use mass format.");
+            $"Mass: {comps.Select(c => c.Mass(((Building_LocalStorage)c.parent).Storage!)).Sum():F2} / {comps.Select(c => c.Props.Value).Sum()} kg",
+            "Nex_NetPanelMass.desc");
 
         listing.End();
         return;

@@ -89,14 +89,14 @@ public class Building_AccessInterface : Building, IHaulDestination, IThingHolder
             yield return gizmo;
         yield return new Command_Toggle()
         {
-            defaultLabel = "Enable Input",
+            defaultLabel = "AllowInput".Translate(),
             icon = Assets.Input,
             toggleAction = () => haulDestinationEnabled = !haulDestinationEnabled,
             isActive = () => haulDestinationEnabled,
         };
         yield return new Command_Toggle()
         {
-            defaultLabel = "Enable Output",
+            defaultLabel = "AllowOutput".Translate(),
             icon = Assets.Output,
             toggleAction = () => outputEnabled = !outputEnabled,
             isActive = () => outputEnabled,
