@@ -40,6 +40,10 @@
           <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
           <Private>False</Private>
         </Reference>
+        <Reference Include="VNPE">
+          <HintPath>..\..\..\..\..\..\workshop\content\294100\2920385763\1.6\Assemblies\VNPE.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
     </ItemGroup>
 
     <ItemGroup>

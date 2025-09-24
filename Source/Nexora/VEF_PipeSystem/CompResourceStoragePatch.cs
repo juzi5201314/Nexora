@@ -6,12 +6,8 @@ using Verse;
 
 namespace Nexora.VEF_PipeSystem;
 
-[HarmonyPatch(typeof(CompResourceStorage))]
-[HarmonyPatchCategory("VEF_PipeSystem")]
-public static class Patches
+public static class CompResourceStoragePatch
 {
-    [HarmonyPatch(nameof(CompResourceStorage.AmountCanAccept), MethodType.Getter)]
-    [HarmonyPrefix]
     public static bool AmountCanAccept(CompResourceStorage __instance, ref float __result)
     {
         if (__instance is not FakeCompResourceStorage fakeStorage)
@@ -23,8 +19,6 @@ public static class Patches
         return false;
     }
 
-    [HarmonyPatch(nameof(CompResourceStorage.AmountStored), MethodType.Getter)]
-    [HarmonyPrefix]
     public static bool AmountStored(CompResourceStorage __instance, ref float __result)
     {
         if (__instance is not FakeCompResourceStorage fakeStorage)
@@ -39,8 +33,6 @@ public static class Patches
         return false;
     }
 
-    [HarmonyPatch(nameof(CompResourceStorage.AmountStoredPct), MethodType.Getter)]
-    [HarmonyPrefix]
     public static bool AmountStoredPct(CompResourceStorage __instance, ref float __result)
     {
         if (__instance is not FakeCompResourceStorage fakeStorage)
@@ -51,9 +43,7 @@ public static class Patches
         __result = 0f;
         return false;
     }
-
-    [HarmonyPatch(nameof(CompResourceStorage.AddResource))]
-    [HarmonyPrefix]
+    
     public static bool AddResource(CompResourceStorage __instance, float amount)
     {
         if (__instance is not FakeCompResourceStorage fakeStorage)
@@ -66,9 +56,7 @@ public static class Patches
         fakeStorage.Network.TryAddItem(resources);
         return false;
     }
-
-    [HarmonyPatch(nameof(CompResourceStorage.DrawResource))]
-    [HarmonyPrefix]
+    
     public static bool DrawResource(CompResourceStorage __instance, float amount)
     {
         if (__instance is not FakeCompResourceStorage fakeStorage)
@@ -93,11 +81,8 @@ public static class Patches
     }
 }
 
-[HarmonyPatch(typeof(PipeNetMaker))]
 public static class PipeNetMakerPatch
 {
-    [HarmonyPatch(nameof(PipeNetMaker.MakePipeNet))]
-    [HarmonyPostfix]
     public static void MakePipeNet(ref PipeNet __result, Map map)
     {
         var thingDef = TryBind(__result);
@@ -108,6 +93,7 @@ public static class PipeNetMakerPatch
                 PipeNet = __result,
                 Network = map.GetComponent<LocalNetwork>(),
                 Resource = ThingMaker.MakeThing(thingDef),
+                parent = new ThingWithComps(),
             });
         }
     }
@@ -118,6 +104,8 @@ public static class PipeNetMakerPatch
         {
             case "VCHE_ChemfuelNet":
                 return ThingDefOf.Chemfuel;
+            case "VNPE_NutrientPasteNet":
+                return ThingDefOf.MealNutrientPaste;
             default:
                 return null;
         }
