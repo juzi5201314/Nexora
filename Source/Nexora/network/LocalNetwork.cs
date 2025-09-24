@@ -178,6 +178,11 @@ public class LocalNetwork(Map map) : MapComponent(map), IItemInterface
         }
     }
 
+    public IEnumerable<Thing> GetItemsByDef(ThingDef def)
+    {
+        return SortedStorages.SelectMany(s => s.GetItemsByDef(def));
+    }
+
     public int TryAddItem(Thing item)
     {
         var total = item.stackCount;

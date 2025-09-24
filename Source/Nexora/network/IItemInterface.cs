@@ -9,6 +9,7 @@ public interface IItemInterface
     public abstract IEnumerable<Thing> GetVirtualItems();
     public abstract IEnumerable<Thing> GetExternalItems();
     public abstract IEnumerable<Thing> GetAllItems();
+    public abstract IEnumerable<Thing> GetItemsByDef(ThingDef def);
 
     public abstract int TryAddItem(Thing item);
 

@@ -180,6 +180,11 @@ public class Building_ExternalStorageConnector : Building, IItemInterface
 
     public IEnumerable<Thing> GetAllItems() => GetExternalItems();
 
+    public IEnumerable<Thing> GetItemsByDef(ThingDef thingDef)
+    {
+        return GetAllItems().Where(t => t.def == thingDef);
+    }
+
     public int TryAddItem(Thing item)
     {
         var added = 0;
