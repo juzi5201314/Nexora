@@ -44,7 +44,7 @@
     <ThingDef ParentName="LocalStorageBase">
         <defName>Nexora_LocalStorage2x2a</defName>
         <label>Storage drive 4</label>
-        <description>一个硬盘驱动器，上面插着4块硬盘，可以存储800kg的物品</description>
+        <description>一个硬盘驱动器，上面插着4块硬盘，可以存储1600kg的物品</description>
         <graphicData>
             <texPath>Things/LocalStorage2x2</texPath>
             <graphicClass>Graphic_Single</graphicClass>
@@ -65,7 +65,7 @@
             </li>
             <li Class="Nexora.comp.CompProperties_DataFormat">
                 <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
-                <value>800</value>
+                <value>1600</value>
             </li>
         </comps>
     </ThingDef>
@@ -73,7 +73,7 @@
     <ThingDef ParentName="LocalStorageBase">
         <defName>Nexora_LocalStorage2x4a</defName>
         <label>Storage drive 8</label>
-        <description>一个硬盘驱动器，上面插着8块硬盘，可以存储1300kg的物品</description>
+        <description>一个硬盘驱动器，上面插着8块硬盘，可以存储3200kg的物品</description>
         <graphicData>
             <texPath>Things/LocalStorage2x4</texPath>
             <graphicClass>Graphic_Single</graphicClass>
@@ -94,7 +94,7 @@
             </li>
             <li Class="Nexora.comp.CompProperties_DataFormat">
                 <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
-                <value>1300</value>
+                <value>3200</value>
             </li>
         </comps>
     </ThingDef>
@@ -102,7 +102,7 @@
     <ThingDef ParentName="LocalStorageBase">
         <defName>Nexora_LocalStorageBlue</defName>
         <label>Simple Integrated Storage</label>
-        <description>一个高度集成的存储设备，可以存储5000kg的物品</description>
+        <description>一个高度集成的存储设备，可以存储10000kg的物品</description>
         <graphicData>
             <texPath>Things/LocalStorageBlue</texPath>
             <graphicClass>Graphic_Single</graphicClass>
@@ -124,7 +124,7 @@
             </li>
             <li Class="Nexora.comp.CompProperties_DataFormat">
                 <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
-                <value>5000</value>
+                <value>10000</value>
             </li>
         </comps>
     </ThingDef>
@@ -132,7 +132,7 @@
     <ThingDef ParentName="LocalStorageBase">
         <defName>Nexora_LocalStorageGreen</defName>
         <label>Good Integrated Storage</label>
-        <description>一个高度集成的存储设备，可以存储10000kg的物品</description>
+        <description>一个高度集成的存储设备，可以存储20000kg的物品</description>
         <graphicData>
             <texPath>Things/LocalStorageGreen</texPath>
             <graphicClass>Graphic_Single</graphicClass>
@@ -154,7 +154,7 @@
             </li>
             <li Class="Nexora.comp.CompProperties_DataFormat">
                 <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
-                <value>10000</value>
+                <value>20000</value>
             </li>
         </comps>
     </ThingDef>
@@ -162,7 +162,7 @@
     <ThingDef ParentName="LocalStorageBase">
         <defName>Nexora_LocalStorageYellow</defName>
         <label>Exquisite Integrated Storage</label>
-        <description>一个高度集成的存储设备，可以存储30000kg的物品</description>
+        <description>一个高度集成的存储设备，可以存储60000kg的物品</description>
         <graphicData>
             <texPath>Things/LocalStorageYellow</texPath>
             <graphicClass>Graphic_Single</graphicClass>
@@ -184,7 +184,7 @@
             </li>
             <li Class="Nexora.comp.CompProperties_DataFormat">
                 <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
-                <value>30000</value>
+                <value>60000</value>
             </li>
         </comps>
     </ThingDef>
@@ -192,7 +192,7 @@
     <ThingDef ParentName="LocalStorageBase">
         <defName>Nexora_LocalStorageRed</defName>
         <label>Epic Integrated Storage</label>
-        <description>一个高度集成的存储设备，可以存储100000kg的物品</description>
+        <description>一个高度集成的存储设备，可以存储200000kg的物品</description>
         <graphicData>
             <texPath>Things/LocalStorageRed</texPath>
             <graphicClass>Graphic_Single</graphicClass>
@@ -214,7 +214,7 @@
             </li>
             <li Class="Nexora.comp.CompProperties_DataFormat">
                 <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
-                <value>100000</value>
+                <value>200000</value>
             </li>
         </comps>
     </ThingDef>

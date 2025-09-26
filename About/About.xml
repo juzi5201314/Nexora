@@ -17,6 +17,8 @@
     </modDependencies>
     <loadAfter>
         <li>brrainz.harmony</li>
+        <li>oskarpotocki.vanillafactionsexpanded.core</li>
+        <li>vanillaexpanded.vnutriente</li>
     </loadAfter>
 
     <description>

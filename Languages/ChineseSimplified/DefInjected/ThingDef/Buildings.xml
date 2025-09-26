@@ -29,25 +29,25 @@
     <Nexora_CPU06a.description>一台超级计算机。拥有高达16384 ops算力。支持15台设备。</Nexora_CPU06a.description>
 
     <!-- Local Storage Buildings -->
-    <Nexora_LocalStorage2x2a.label>Storage drive 4</Nexora_LocalStorage2x2a.label>
+    <Nexora_LocalStorage2x2a.label>硬盘驱动器</Nexora_LocalStorage2x2a.label>
     <Nexora_LocalStorage2x2a.description>一个硬盘驱动器，上面插着4块硬盘，可以存储800kg的物品</Nexora_LocalStorage2x2a.description>
 
-    <Nexora_LocalStorage2x4a.label>Storage drive 8</Nexora_LocalStorage2x4a.label>
+    <Nexora_LocalStorage2x4a.label>密集硬盘驱动器</Nexora_LocalStorage2x4a.label>
     <Nexora_LocalStorage2x4a.description>一个硬盘驱动器，上面插着8块硬盘，可以存储1300kg的物品</Nexora_LocalStorage2x4a.description>
 
-    <Nexora_LocalStorageBlue.label>Simple Integrated Storage</Nexora_LocalStorageBlue.label>
+    <Nexora_LocalStorageBlue.label>简单的集成存储设备</Nexora_LocalStorageBlue.label>
     <Nexora_LocalStorageBlue.description>一个高度集成的存储设备，可以存储5000kg的物品</Nexora_LocalStorageBlue.description>
 
-    <Nexora_LocalStorageGreen.label>Good Integrated Storage</Nexora_LocalStorageGreen.label>
+    <Nexora_LocalStorageGreen.label>不错的集成存储设备</Nexora_LocalStorageGreen.label>
     <Nexora_LocalStorageGreen.description>一个高度集成的存储设备，可以存储10000kg的物品</Nexora_LocalStorageGreen.description>
 
-    <Nexora_LocalStorageYellow.label>Exquisite Integrated Storage</Nexora_LocalStorageYellow.label>
+    <Nexora_LocalStorageYellow.label>精良的集成存储设备</Nexora_LocalStorageYellow.label>
     <Nexora_LocalStorageYellow.description>一个高度集成的存储设备，可以存储30000kg的物品</Nexora_LocalStorageYellow.description>
 
-    <Nexora_LocalStorageRed.label>Epic Integrated Storage</Nexora_LocalStorageRed.label>
+    <Nexora_LocalStorageRed.label>超级集成存储设备</Nexora_LocalStorageRed.label>
     <Nexora_LocalStorageRed.description>一个高度集成的存储设备，可以存储100000kg的物品</Nexora_LocalStorageRed.description>
 
-    <Nexora_LocalStoragePurple.label>Black Hole Integrated Storage</Nexora_LocalStoragePurple.label>
+    <Nexora_LocalStoragePurple.label>黑洞存储器</Nexora_LocalStoragePurple.label>
     <Nexora_LocalStoragePurple.description>这个存储器中有一个微型黑洞来压缩物品，可以存储NaN个物品</Nexora_LocalStoragePurple.description>
 
 </LanguageData>
