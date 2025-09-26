@@ -25,7 +25,6 @@ public static class GenClosestPatch
         if (network == null) return;
 
         var things = network.GetItemByRequest(thingReq);
-
         var inter = network.GetClosestAccessInterface(root, maxDistance, peMode, traverseParams);
         if (inter == null) return;
 
@@ -36,7 +35,6 @@ public static class GenClosestPatch
 
         var thing = things.FirstOrFallback(thing => validator(thing!), null);
         if (thing == null) return;
-
         __result = thing;
     }
 }
