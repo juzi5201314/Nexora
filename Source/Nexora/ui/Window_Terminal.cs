@@ -83,13 +83,22 @@ public class Window_Terminal(IItemInterface itemInterface) : Window
             var options = new List<FloatMenuOption>
             {
                 new("A-Z", () => { sortBy = list => list.SortBy(t => t.LabelCap); }),
+                new("Count", () => { sortBy = list => list.SortByDescending(t => t.stackCount); }),
                 new("Mass",
-                    () => { sortBy = list => list.SortBy(t => t.GetStatValue(StatDefOf.Mass) * t.stackCount); }),
+                    () =>
+                    {
+                        sortBy = list => list.SortByDescending(t => t.GetStatValue(StatDefOf.Mass) * t.stackCount);
+                    }),
                 new("Unit Mass",
-                    () => { sortBy = list => list.SortBy(t => t.GetStatValue(StatDefOf.Mass)); }),
+                    () => { sortBy = list => list.SortByDescending(t => t.GetStatValue(StatDefOf.Mass)); }),
                 new("Value",
-                    () => { sortBy = list => list.SortBy(t => t.GetStatValue(StatDefOf.MarketValue) * t.stackCount); }),
-                new("Unit Value", () => { sortBy = list => list.SortBy(t => t.GetStatValue(StatDefOf.MarketValue)); }),
+                    () =>
+                    {
+                        sortBy = list =>
+                            list.SortByDescending(t => t.GetStatValue(StatDefOf.MarketValue) * t.stackCount);
+                    }),
+                new("Unit Value",
+                    () => { sortBy = list => list.SortByDescending(t => t.GetStatValue(StatDefOf.MarketValue)); }),
                 new("Reverse", () =>
                 {
                     var old = sortBy;

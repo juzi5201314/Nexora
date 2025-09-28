@@ -37,27 +37,27 @@
 
     <!-- Local Storage Buildings -->
     <Nexora_LocalStorage2x2a.label>Storage drive 4</Nexora_LocalStorage2x2a.label>
-    <Nexora_LocalStorage2x2a.description>A hard drive with 4 disks inserted, capable of storing 800kg of items
+    <Nexora_LocalStorage2x2a.description>A hard drive with 4 disks inserted, capable of storing 4kb of items
     </Nexora_LocalStorage2x2a.description>
 
     <Nexora_LocalStorage2x4a.label>Storage drive 8</Nexora_LocalStorage2x4a.label>
-    <Nexora_LocalStorage2x4a.description>A hard drive with 8 disks inserted, capable of storing 1300kg of items
+    <Nexora_LocalStorage2x4a.description>A hard drive with 8 disks inserted, capable of storing 16kb of items
     </Nexora_LocalStorage2x4a.description>
 
     <Nexora_LocalStorageBlue.label>Simple Integrated Storage</Nexora_LocalStorageBlue.label>
-    <Nexora_LocalStorageBlue.description>A highly integrated storage device, capable of storing 5000kg of items
+    <Nexora_LocalStorageBlue.description>A highly integrated storage device, capable of storing 64kb of items
     </Nexora_LocalStorageBlue.description>
 
     <Nexora_LocalStorageGreen.label>Good Integrated Storage</Nexora_LocalStorageGreen.label>
-    <Nexora_LocalStorageGreen.description>A highly integrated storage device, capable of storing 10000kg of items
+    <Nexora_LocalStorageGreen.description>A highly integrated storage device, capable of storing 512kb of items
     </Nexora_LocalStorageGreen.description>
 
     <Nexora_LocalStorageYellow.label>Exquisite Integrated Storage</Nexora_LocalStorageYellow.label>
-    <Nexora_LocalStorageYellow.description>A highly integrated storage device, capable of storing 30000kg of items
+    <Nexora_LocalStorageYellow.description>A highly integrated storage device, capable of storing 2mb of items
     </Nexora_LocalStorageYellow.description>
 
     <Nexora_LocalStorageRed.label>Epic Integrated Storage</Nexora_LocalStorageRed.label>
-    <Nexora_LocalStorageRed.description>A highly integrated storage device, capable of storing 100000kg of items
+    <Nexora_LocalStorageRed.description>A highly integrated storage device, capable of storing 12mb of items
     </Nexora_LocalStorageRed.description>
 
     <Nexora_LocalStoragePurple.label>Black Hole Integrated Storage</Nexora_LocalStoragePurple.label>
