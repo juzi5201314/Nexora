@@ -31,4 +31,16 @@ public static class ThingPatch
 
         return true;
     }
+    
+    [HarmonyPatch(nameof(Thing.SplitOff))]
+    [HarmonyPostfix]
+    public static void SplitOff(Thing __instance)
+    {
+        if (__instance.holdingOwner is not ItemStorage storage)
+        {
+            return;
+        }
+
+        storage.Owner.CompDataFormat.OnChange(storage);
+    }
 }

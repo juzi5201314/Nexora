@@ -29,16 +29,11 @@ public class CompDataFormatMassFormat : CompDataFormat
     {
     }
 
-    public override void OnAdd(ItemStorage storage)
+    public override void OnChange(ItemStorage storage)
     {
         dirty = true;
     }
-
-    public override void OnRemove(ItemStorage storage, Thing item, int count)
-    {
-        dirty = true;
-    }
-
+    
     public override int GetCountCanAccept(ItemStorage storage, Thing item)
     {
         var single = item.GetStatValue(StatDefOf.Mass);

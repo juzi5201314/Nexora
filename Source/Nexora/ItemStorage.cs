@@ -123,7 +123,7 @@ public class ItemStorage(Building_LocalStorage owner) : ThingOwner(owner), IItem
                 thing.TryAbsorbStack(other, false);
                 if (other.Destroyed || other.stackCount == 0)
                 {
-                    Owner.CompDataFormat.OnAdd(this);
+                    Owner.CompDataFormat.OnChange(this);
                     return num;
                 }
             }
@@ -132,7 +132,7 @@ public class ItemStorage(Building_LocalStorage owner) : ThingOwner(owner), IItem
         other.holdingOwner = this;
         dict.Add(other, Container.Count);
         Container.Add(other);
-        Owner.CompDataFormat.OnAdd(this);
+        Owner.CompDataFormat.OnChange(this);
         return num;
     }
 
@@ -239,7 +239,7 @@ public class ItemStorage(Building_LocalStorage owner) : ThingOwner(owner), IItem
         }
 
         Container.RemoveAt(last);
-        Owner.CompDataFormat.OnRemove(this, item, item.stackCount);
+        Owner.CompDataFormat.OnChange(this);
         return true;
     }
 

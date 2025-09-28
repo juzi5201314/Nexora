@@ -63,9 +63,9 @@
                 <compClass>CompPowerTrader</compClass>
                 <basePowerConsumption>120</basePowerConsumption>
             </li>
-            <li Class="Nexora.comp.CompProperties_DataFormat">
-                <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
-                <value>1600</value>
+            <li Class="Nexora.comp.CompProperties_DataFormatBytes">
+                <compClass>Nexora.comp.CompDataFormatBytes</compClass>
+                <value>1kb</value>
             </li>
         </comps>
     </ThingDef>
@@ -92,9 +92,9 @@
                 <compClass>CompPowerTrader</compClass>
                 <basePowerConsumption>240</basePowerConsumption>
             </li>
-            <li Class="Nexora.comp.CompProperties_DataFormat">
-                <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
-                <value>3200</value>
+            <li Class="Nexora.comp.CompProperties_DataFormatBytes">
+                <compClass>Nexora.comp.CompDataFormatBytes</compClass>
+                <value>4kb</value>
             </li>
         </comps>
     </ThingDef>
@@ -122,9 +122,9 @@
                 <compClass>CompPowerTrader</compClass>
                 <basePowerConsumption>240</basePowerConsumption>
             </li>
-            <li Class="Nexora.comp.CompProperties_DataFormat">
-                <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
-                <value>10000</value>
+            <li Class="Nexora.comp.CompProperties_DataFormatBytes">
+                <compClass>Nexora.comp.CompDataFormatBytes</compClass>
+                <value>16kb</value>
             </li>
         </comps>
     </ThingDef>
@@ -152,9 +152,9 @@
                 <compClass>CompPowerTrader</compClass>
                 <basePowerConsumption>240</basePowerConsumption>
             </li>
-            <li Class="Nexora.comp.CompProperties_DataFormat">
-                <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
-                <value>20000</value>
+            <li Class="Nexora.comp.CompProperties_DataFormatBytes">
+                <compClass>Nexora.comp.CompDataFormatBytes</compClass>
+                <value>64kb</value>
             </li>
         </comps>
     </ThingDef>
@@ -182,9 +182,9 @@
                 <compClass>CompPowerTrader</compClass>
                 <basePowerConsumption>240</basePowerConsumption>
             </li>
-            <li Class="Nexora.comp.CompProperties_DataFormat">
-                <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
-                <value>60000</value>
+            <li Class="Nexora.comp.CompProperties_DataFormatBytes">
+                <compClass>Nexora.comp.CompDataFormatBytes</compClass>
+                <value>512kb</value>
             </li>
         </comps>
     </ThingDef>
@@ -212,9 +212,9 @@
                 <compClass>CompPowerTrader</compClass>
                 <basePowerConsumption>240</basePowerConsumption>
             </li>
-            <li Class="Nexora.comp.CompProperties_DataFormat">
-                <compClass>Nexora.comp.CompDataFormatMassFormat</compClass>
-                <value>200000</value>
+            <li Class="Nexora.comp.CompProperties_DataFormatBytes">
+                <compClass>Nexora.comp.CompDataFormatBytes</compClass>
+                <value>2mb</value>
             </li>
         </comps>
     </ThingDef>

@@ -13,7 +13,7 @@ public class CompProperties_DataFormat : CompProperties
 
     private decimal? ValueInt;
 
-    public decimal Value
+    public virtual decimal Value
     {
         get
         {

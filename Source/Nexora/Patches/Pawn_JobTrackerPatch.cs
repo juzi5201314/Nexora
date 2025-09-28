@@ -76,6 +76,7 @@ public static class Pawn_JobTrackerPatch
 
         (LocalTargetInfo, int) ProcessThing(LocalTargetInfo target, int count)
         {
+            var reserved = ___pawn.HasReserved(target, newJob);
             var item = target.Thing;
             if (item != null && network!.Managed(item))
             {
@@ -86,7 +87,14 @@ public static class Pawn_JobTrackerPatch
                 if (res != null)
                 {
                     inter.InnerThingOwner.AddTempThing(res);
-                    return (new LocalTargetInfo(res), num);
+                    var newTarget = new LocalTargetInfo(res);
+                    if (reserved)
+                    {
+                        ___pawn.Map.reservationManager.Release(target, ___pawn, newJob);
+                        ___pawn.Reserve(newTarget, newJob, stackCount: count);
+                    }
+
+                    return (newTarget, num);
                 }
             }
 
