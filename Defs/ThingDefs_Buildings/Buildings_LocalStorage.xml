@@ -65,7 +65,7 @@
             </li>
             <li Class="Nexora.comp.CompProperties_DataFormatBytes">
                 <compClass>Nexora.comp.CompDataFormatBytes</compClass>
-                <value>1kb</value>
+                <value>4kb</value>
             </li>
         </comps>
     </ThingDef>
@@ -94,7 +94,7 @@
             </li>
             <li Class="Nexora.comp.CompProperties_DataFormatBytes">
                 <compClass>Nexora.comp.CompDataFormatBytes</compClass>
-                <value>4kb</value>
+                <value>16kb</value>
             </li>
         </comps>
     </ThingDef>
@@ -124,7 +124,7 @@
             </li>
             <li Class="Nexora.comp.CompProperties_DataFormatBytes">
                 <compClass>Nexora.comp.CompDataFormatBytes</compClass>
-                <value>16kb</value>
+                <value>64kb</value>
             </li>
         </comps>
     </ThingDef>
@@ -154,7 +154,7 @@
             </li>
             <li Class="Nexora.comp.CompProperties_DataFormatBytes">
                 <compClass>Nexora.comp.CompDataFormatBytes</compClass>
-                <value>64kb</value>
+                <value>512kb</value>
             </li>
         </comps>
     </ThingDef>
@@ -184,7 +184,7 @@
             </li>
             <li Class="Nexora.comp.CompProperties_DataFormatBytes">
                 <compClass>Nexora.comp.CompDataFormatBytes</compClass>
-                <value>512kb</value>
+                <value>2mb</value>
             </li>
         </comps>
     </ThingDef>
@@ -214,7 +214,7 @@
             </li>
             <li Class="Nexora.comp.CompProperties_DataFormatBytes">
                 <compClass>Nexora.comp.CompDataFormatBytes</compClass>
-                <value>2mb</value>
+                <value>12mb</value>
             </li>
         </comps>
     </ThingDef>

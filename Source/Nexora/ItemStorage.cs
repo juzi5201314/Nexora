@@ -129,6 +129,7 @@ public class ItemStorage(Building_LocalStorage owner) : ThingOwner(owner), IItem
             }
         }
 
+        other.TrySetForbidden(false);
         other.holdingOwner = this;
         dict.Add(other, Container.Count);
         Container.Add(other);
